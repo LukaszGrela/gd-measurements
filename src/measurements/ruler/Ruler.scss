@@ -1,0 +1,65 @@
+@use "sass:color";
+@import "@/measurements/styles/variables";
+
+.Ruler {
+  pointer-events: none;
+  &.absolute {
+    position: absolute;
+
+    &.vertical {
+      height: 100%;
+    }
+    &.horizontal {
+      width: 100%;
+    }
+  }
+  &.fixed {
+    position: fixed;
+    z-index: 1979;
+
+    &.vertical {
+      height: 100vh;
+    }
+    &.horizontal {
+      width: 100vw;
+    }
+  }
+
+  &.vertical {
+    width: 50px;
+  }
+  &.horizontal {
+    height: 50px;
+  }
+
+  &.top {
+    top: 0;
+    left: 0;
+  }
+  &.bottom {
+    bottom: 0;
+    left: 0;
+  }
+  &.right {
+    top: 0;
+    right: 0;
+  }
+  &.left {
+    top: 0;
+    left: 0;
+  }
+
+  &_pattern {
+    &_line {
+      fill: color.adjust($gd-red, $alpha: -0.5);
+    }
+    &_main {
+      stroke: color.adjust($gd-red, $alpha: -0.5);
+      stroke-width: 1;
+    }
+    &_sub {
+      stroke: color.adjust($gd-red, $alpha: -0.75);
+      stroke-width: 1;
+    }
+  }
+}

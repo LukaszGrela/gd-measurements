@@ -1,0 +1,32 @@
+@use "sass:color";
+@import "@/measurements/styles/variables";
+
+.Grid {
+  pointer-events: none;
+  top: 0;
+  left: 0;
+
+  &.absolute {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
+
+  &.fixed {
+    position: fixed;
+    z-index: 1979;
+
+    height: 100vh;
+    width: 100vw;
+  }
+
+  &_pattern {
+    &_main {
+      stroke: color.adjust($gd-red, $alpha: -0.5);
+    }
+    &_sub {
+      stroke: color.adjust($gd-red, $alpha: -0.75);
+      // stroke-dasharray: 1 4;
+    }
+  }
+}
