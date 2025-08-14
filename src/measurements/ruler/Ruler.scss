@@ -1,5 +1,5 @@
 @use "sass:color";
-@import "@/measurements/styles/variables";
+@use "@/measurements/styles/variables";
 
 .Ruler {
   pointer-events: none;
@@ -51,14 +51,14 @@
 
   &_pattern {
     &_line {
-      fill: color.adjust($gd-red, $alpha: -0.5);
+      fill: color.adjust(variables.$gd-red, $alpha: -0.5);
     }
     &_main {
-      stroke: color.adjust($gd-red, $alpha: -0.5);
+      stroke: color.adjust(variables.$gd-red, $alpha: -0.5);
       stroke-width: 1;
     }
     &_sub {
-      stroke: color.adjust($gd-red, $alpha: -0.75);
+      stroke: color.adjust(variables.$gd-red, $alpha: -0.75);
       stroke-width: 1;
     }
   }

@@ -1,5 +1,5 @@
 @use "sass:color";
-@import "@/measurements/styles/variables";
+@use "@/measurements/styles/variables";
 
 .Grid {
   pointer-events: none;
@@ -22,10 +22,10 @@
 
   &_pattern {
     &_main {
-      stroke: color.adjust($gd-red, $alpha: -0.5);
+      stroke: color.adjust(variables.$gd-red, $alpha: -0.5);
     }
     &_sub {
-      stroke: color.adjust($gd-red, $alpha: -0.75);
+      stroke: color.adjust(variables.$gd-red, $alpha: -0.75);
       // stroke-dasharray: 1 4;
     }
   }
