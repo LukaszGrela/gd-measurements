@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "node:path";
@@ -18,5 +19,9 @@ export default defineConfig({
         replacement: resolve(__dirname, "./src/"),
       },
     ],
+  },
+  test: {
+    globals: true, // Enables global test functions like describe, it, etc.
+    environment: "jsdom", // Use jsdom for testing React components
   },
 });
