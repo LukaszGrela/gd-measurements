@@ -4,6 +4,8 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { Grid } from "./measurements/grid/Grid";
 import { Ruler } from "./measurements/ruler/Ruler";
+import { AxisH } from "./measurements/center/AxisH";
+import { AxisV } from "./measurements/center/AxisV";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,21 +20,26 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
         <Ruler location="bottom" orientation="horizontal" position="absolute" />
+        <AxisV position="absolute" />
       </div>
       <h1>Vite + React</h1>
       <div className="card" style={{ position: "relative" }}>
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button
+          onClick={() => setCount((count) => count + 1)}
+          style={{ position: "relative" }}
+        >
           count is {count}
+          <Grid position="absolute" />
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
         <Ruler location="left" orientation="vertical" position="absolute" />
+        <AxisH position="absolute" />
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <Grid position="absolute" />
     </>
   );
 }

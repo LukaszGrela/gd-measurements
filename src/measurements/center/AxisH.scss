@@ -1,0 +1,29 @@
+@use "sass:color";
+@use "@/measurements/styles/variables";
+
+.AxisH {
+    pointer-events: none;
+    top: 0;
+    left: 0;
+
+    &.absolute {
+        position: absolute;
+
+        height: 100%;
+        width: 100%;
+    }
+
+    &.fixed {
+        position: fixed;
+        z-index: 19791306;
+
+        height: 100vh;
+        width: 100vw;
+    }
+
+    & line {
+        stroke: color.adjust(variables.$gd-green, $alpha: -0.5);
+        stroke-width: 1;
+        stroke-dasharray: 10 5 1 5;
+    }
+}
