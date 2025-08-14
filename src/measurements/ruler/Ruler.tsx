@@ -1,34 +1,8 @@
-import { Fragment, type FC, type SVGLineElementAttributes } from "react";
+import { Fragment, type FC } from "react";
 import "./Ruler.scss";
 import { classNames } from "../utils/classNames";
-
-const VerticalLine: FC<
-  Omit<SVGLineElementAttributes<SVGLineElement>, "x1" | "x2" | "y1" | "y2"> & {
-    length: number;
-    x: number;
-    y: number;
-  }
-> = ({ x, y, length, ...props }) => {
-  const x1 = x;
-  const x2 = x;
-  const y1 = y;
-  const y2 = y + length;
-  return <line {...props} x1={x1} y1={y1} x2={x2} y2={y2} />;
-};
-
-const HorizontalLine: FC<
-  Omit<SVGLineElementAttributes<SVGLineElement>, "x1" | "x2" | "y1" | "y2"> & {
-    length: number;
-    x: number;
-    y: number;
-  }
-> = ({ x, y, length, ...props }) => {
-  const x1 = x;
-  const x2 = x + length;
-  const y1 = y;
-  const y2 = y;
-  return <line {...props} x1={x1} y1={y1} x2={x2} y2={y2} />;
-};
+import { VerticalLine } from "../utils/svg/VerticalLine";
+import { HorizontalLine } from "../utils/svg/HorizontalLine";
 
 const getPattern1 = (
   orientation: "vertical" | "horizontal" = "vertical",
