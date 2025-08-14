@@ -1,5 +1,5 @@
-import { type RefObject, useCallback, useEffect, useRef } from 'react';
-import { rectsEqual } from '../utils/domrect/rectsEqual';
+import { type RefObject, useCallback, useEffect, useRef } from "react";
+import { rectsEqual } from "../utils/domrect/rectsEqual";
 
 /**
  * Hook to observe size changes.
@@ -19,9 +19,9 @@ import { rectsEqual } from '../utils/domrect/rectsEqual';
  * @param elementRef 
  * @param callback 
  */
-export const useResizeObserver = <T extends HTMLElement = HTMLElement>(
-  elementRef: RefObject<T>,
-  callback: (rect: DOMRect) => void,
+export const useResizeObserver = <T extends Element = Element>(
+  elementRef: RefObject<T | null>,
+  callback: (rect: DOMRect) => void
 ): void => {
   const rect = useRef<DOMRect | null>(null);
 

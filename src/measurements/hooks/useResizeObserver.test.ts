@@ -1,9 +1,9 @@
-import { act, renderHook } from '@testing-library/react';
-import { vi } from 'vitest';
-import { useResizeObserver } from './useResizeObserver';
+import { act, renderHook } from "@testing-library/react";
+import { vi } from "vitest";
+import { useResizeObserver } from "./useResizeObserver";
 
-describe('hooks', () => {
-  describe('useResizeObserver', () => {
+describe("hooks", () => {
+  describe("useResizeObserver", () => {
     const observerInstances: MockedResizeObserver[] = [];
 
     class MockedResizeObserver implements ResizeObserver {
@@ -24,13 +24,13 @@ describe('hooks', () => {
 
     beforeEach(() => {
       observerInstances.length = 0;
-      vi.stubGlobal('ResizeObserver', MockedResizeObserver);
+      vi.stubGlobal("ResizeObserver", MockedResizeObserver);
     });
     afterEach(() => {
       vi.unstubAllGlobals();
     });
 
-    it('callback not called', () => {
+    it("callback not called", () => {
       const callback = vi.fn();
       const ref = { current: {} as HTMLElement };
       const { rerender } = renderHook<
@@ -43,7 +43,7 @@ describe('hooks', () => {
       // observer added
       expect(observerInstances.length).toBe(1);
       //
-      // eslint-disable-next-line @typescript-eslint/unbound-method
+
       expect(observerInstances[0].callback).not.toHaveBeenCalled();
 
       rerender([{ current: null as unknown as HTMLElement }, callback]);
@@ -53,11 +53,11 @@ describe('hooks', () => {
       expect(observerInstances.length).toBe(1);
 
       // old observer cleaned
-      // eslint-disable-next-line @typescript-eslint/unbound-method
+
       expect(observerInstances[0].disconnect).toHaveBeenCalled();
     });
 
-    it('callback is called', () => {
+    it("callback is called", () => {
       const rect = {
         bottom: 1,
         height: 2,
@@ -81,7 +81,7 @@ describe('hooks', () => {
       // observer added
       expect(observerInstances.length).toBe(1);
       //
-      // eslint-disable-next-line @typescript-eslint/unbound-method
+
       expect(observerInstances[0].callback).not.toHaveBeenCalled();
 
       act(() => {
@@ -92,7 +92,7 @@ describe('hooks', () => {
       expect(callback).toHaveBeenCalledWith(rect);
     });
 
-    it('changes obbserver on ref change', () => {
+    it("changes obbserver on ref change", () => {
       const callback = vi.fn();
       const ref = { current: {} as HTMLElement };
       const { rerender } = renderHook<
@@ -105,13 +105,13 @@ describe('hooks', () => {
       // observer added
       expect(observerInstances.length).toBe(1);
       //
-      // eslint-disable-next-line @typescript-eslint/unbound-method
+
       expect(observerInstances[0].disconnect).not.toHaveBeenCalled();
       //
       rerender([{ current: {} as HTMLElement }, vi.fn()]);
       //
       expect(observerInstances.length).toBe(2);
-      // eslint-disable-next-line @typescript-eslint/unbound-method
+
       expect(observerInstances[0].disconnect).toHaveBeenCalled();
     });
   });
