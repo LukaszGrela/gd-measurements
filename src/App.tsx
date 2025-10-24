@@ -2,10 +2,10 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { Grid } from "./measurements/grid/Grid";
-import { Ruler } from "./measurements/ruler/Ruler";
-import { AxisH } from "./measurements/center/AxisH";
-import { AxisV } from "./measurements/center/AxisV";
+import { Grid } from "../lib/grid/Grid";
+import { Ruler } from "../lib/ruler/Ruler";
+import { AxisH } from "../lib/center/AxisH";
+import { AxisV } from "../lib/center/AxisV";
 
 function App() {
   const [count, setCount] = useState(0);
