@@ -2,7 +2,7 @@
   "name": "gd-measurements",
   "description": "Set of React components to add measurement means to your components for debugging purpose.",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "main": "dist/gd-measurements.js",
   "types": "dist/index.d.ts",
@@ -35,8 +35,8 @@
   },
   "peerDependencies": {
     "lodash": "^4.17.21",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react": "^18.3.1 || ^19.1.1",
+    "react-dom": "^18.3.1 || ^19.1.1"
   },
   "devDependencies": {
     "lodash": "^4.17.21",
