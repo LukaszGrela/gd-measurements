@@ -12,7 +12,20 @@
   "sideEffects": [
     "**/*.css"
   ],
+  "license": "MIT",
+  "author": {
+    "name": "Łukasz Grela",
+    "email": "lukasz.grela@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LukaszGrela/gd-measurements"
+  },
+  "bugs": {
+    "url": "https://github.com/LukaszGrela/gd-measurements/issues"
+  },
   "scripts": {
+    "clean-package": "node scripts/clean-package.js",
     "dev": "vite",
     "build": "tsc --p ./tsconfig.lib.json && vite build",
     "lint": "eslint .",
