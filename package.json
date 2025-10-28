@@ -30,12 +30,8 @@
     "build": "tsc --p ./tsconfig.lib.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "publish:pre": "npm run build && npm run clean-package",
-    "publish:post": "git checkout -- package.json && rm -rf package.json.backup",
-    "prepublishOnly": "npm run publish:pre",
-    "postpublish": "npm run publish:post",
-    "prepack": "npm run publish:pre",
-    "postpack": "npm run publish:post"
+    "prepack": "npm run build && npm run clean-package",
+    "postpack": "git checkout -- package.json && rm -rf package.json.backup"
   },
   "peerDependencies": {
     "lodash": "^4.17.21",
