@@ -25,5 +25,6 @@
     "noUncheckedSideEffectImports": true,
     "types": ["vitest/jsdom", "jest"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["**/*.test.*"]
 }
