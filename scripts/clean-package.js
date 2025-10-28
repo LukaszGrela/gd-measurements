@@ -64,13 +64,13 @@ renameSync(tempPath, pkgPath); // now pkgPath points to the cleaned file
 // After the publish finishes you should restore the original file.
 // In CI you can simply run `git checkout -- package.json`.
 // If you run this script locally you can add a tiny cleanup step:
-process.on("exit", () => {
-  try {
-    // restore original
-    renameSync(backupPath, pkgPath);
-    // remove any stray temp file
-    unlinkSync(tempPath);
-  } catch (_) {
-    // ignore – cleanup already done or failed
-  }
-});
+// process.on("exit", () => {
+//   try {
+//     // restore original
+//     renameSync(backupPath, pkgPath);
+//     // remove any stray temp file
+//     unlinkSync(tempPath);
+//   } catch (_) {
+//     // ignore – cleanup already done or failed
+//   }
+// });
