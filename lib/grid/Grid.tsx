@@ -1,14 +1,10 @@
 import "./Grid.scss";
-import { type FC, type ReactNode } from "react";
+import { useRef, type FC, type ReactNode } from "react";
 import { classNames } from "../utils/classNames";
 import { HorizontalLine } from "../utils/svg/HorizontalLine";
 import { VerticalLine } from "../utils/svg/VerticalLine";
-
-type TGrid = {
-  width: number;
-  height: number;
-  subdivision?: number;
-};
+import type { IProps, TGrid } from "./types";
+import { Units } from "../labels/Units";
 
 const getPatternId = (grid: TGrid) => {
   return `grid-pattern-${grid.width}x${grid.height}`;
@@ -104,15 +100,36 @@ const getPattern1 = (
   );
 };
 
-export const Grid: FC<{
-  position?: "absolute" | "fixed";
-  grid?: TGrid;
-}> = ({ position = "fixed", grid = { width: 50, height: 50 } }) => {
+export const Grid: FC<IProps> = ({
+  position = "fixed",
+  grid = { width: 50, height: 50 },
+  labels,
+}) => {
+  const ref = useRef<SVGSVGElement | null>(null);
   const patternId = getPatternId(grid);
   return (
-    <svg className={classNames("Grid", position)}>
+    <svg ref={ref} className={classNames("Grid", position)}>
       <defs>{getPattern1(patternId, grid)}</defs>
       <rect fill={`url(#${patternId})`} width={"100%"} height={"100%"} />
+      {labels && (
+        <g>
+          <Units
+            className="Grid_units"
+            grid={grid}
+            labels={labels}
+            orientation="horizontal"
+            svgRef={ref}
+          />
+
+          <Units
+            className="Grid_units"
+            grid={grid}
+            labels={labels}
+            orientation="vertical"
+            svgRef={ref}
+          />
+        </g>
+      )}
     </svg>
   );
 };

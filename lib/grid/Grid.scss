@@ -26,7 +26,28 @@
     }
     &_sub {
       stroke: color.adjust(variables.$gd-red, $alpha: -0.75);
-      // stroke-dasharray: 1 4;
+    }
+  }
+
+  &_units .value-label {
+    fill: color.scale(variables.$gd-red, $lightness: -30%);
+    font-family: monospace;
+    font-size: 10px;
+    alignment-baseline: text-before-edge;
+
+    & tspan {
+      alignment-baseline: text-before-edge;
+    }
+
+    &.horizontal {
+      text-anchor: start;
+      &.first {
+        text-anchor: end;
+      }
+    }
+
+    &.vertical {
+      text-anchor: start;
     }
   }
 }
