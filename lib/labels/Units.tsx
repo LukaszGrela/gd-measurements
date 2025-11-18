@@ -2,28 +2,26 @@ import { useCallback, useMemo, useState, type FC } from "react";
 import throttle from "lodash/throttle";
 import type { IProps } from "./types";
 import type { TPoint, TSize } from "../types/common";
-import type { TGrid } from "../grid/types";
 import { useResizeObserver } from "../hooks/useResizeObserver";
 import { classNames } from "../utils/classNames";
 import { getOffset } from "../utils/getOffset";
+
+const ZERO_POINT: TPoint = {
+  x: 0,
+  y: 0,
+};
 
 const generateLabels = (
   list: number[] = [],
   orientation: "horizontal" | "vertical",
   offset: number | TPoint = 0,
-  grid: TGrid,
+  size: TSize,
   skipFirst?: boolean,
-  zero?: TPoint,
-  size?: TSize
+  zero?: TPoint
 ) => {
-  const getSize = (grid: TGrid, size?: TSize) => {
-    if (size) return size;
-    return grid;
-  };
-
   const length = list.length;
-  const posX = orientation === "horizontal" ? getSize(grid, size).width : 0,
-    posY = orientation === "vertical" ? getSize(grid, size).height : 0,
+  const posX = orientation === "horizontal" ? size.width : 0,
+    posY = orientation === "vertical" ? size.height : 0,
     offsetX = getOffset(offset).x,
     offsetY = getOffset(offset).y;
 
@@ -52,10 +50,7 @@ const generateLabels = (
       >
         <tspan>
           {(
-            index *
-            (orientation === "horizontal"
-              ? getSize(grid, size).width
-              : getSize(grid, size).height)
+            index * (orientation === "horizontal" ? size.width : size.height)
           ).toString()}
         </tspan>
       </text>
@@ -63,38 +58,32 @@ const generateLabels = (
   });
 };
 
+const DEFAULT_V: TPoint = { x: 0, y: 10 };
+const DEFAULT_H: TPoint = { x: 10, y: 0 };
+
 export const Units: FC<IProps> = ({
-  grid,
   orientation,
-  labels,
   svgRef,
   className,
+
+  offset = ZERO_POINT,
+  size,
+  zero,
+
+  skipZero = false,
 }) => {
   const [length, setLength] = useState(0);
-
-  const getSize = (grid: TGrid, size?: TSize) => {
-    if (size) return size;
-    return grid;
-  };
 
   const resizeCallback = useCallback(
     (width: number, height: number) => {
       const newLength = Math.floor(
         (orientation === "horizontal" ? width : height) /
-          (orientation === "horizontal"
-            ? getSize(
-                grid,
-                typeof labels === "boolean" ? undefined : labels.size
-              ).width
-            : getSize(
-                grid,
-                typeof labels === "boolean" ? undefined : labels.size
-              ).height)
+          (orientation === "horizontal" ? size.width : size.height)
       );
 
       setLength(newLength + 1);
     },
-    [grid, labels, orientation]
+    [orientation, size.height, size.width]
   );
 
   const throttledResize = throttle(resizeCallback, 500);
@@ -102,32 +91,6 @@ export const Units: FC<IProps> = ({
   useResizeObserver(svgRef, (rect) => {
     throttledResize(rect.width, rect.height);
   });
-
-  const point = useMemo(() => {
-    if (typeof labels !== "boolean") {
-      if (orientation === "horizontal") {
-        return labels.hOffset;
-      } else {
-        return labels.vOffset;
-      }
-    }
-
-    return undefined;
-  }, [labels, orientation]);
-
-  const zero = useMemo(() => {
-    if (typeof labels !== "boolean" && labels.zero) {
-      return getOffset(labels.zero);
-    }
-    return { x: 10, y: 0 };
-  }, [labels]);
-
-  const size = useMemo(() => {
-    if (typeof labels !== "boolean" && labels.size) {
-      return labels.size;
-    }
-    return undefined;
-  }, [labels]);
 
   const list = useMemo(() => {
     return Array.from(Array(length)).map((_, index) => index);
@@ -138,11 +101,10 @@ export const Units: FC<IProps> = ({
       {generateLabels(
         list,
         orientation,
-        point,
-        grid,
-        orientation === "vertical",
-        zero,
-        size
+        offset,
+        size,
+        skipZero,
+        getOffset(zero ?? (orientation === "vertical" ? DEFAULT_V : DEFAULT_H))
       )}
     </g>
   );

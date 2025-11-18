@@ -1,5 +1,4 @@
-import type { TUnits } from "../labels/types";
-import type { TPosition, TSize } from "../types/common";
+import type { TPoint, TPosition, TSize } from "../types/common";
 
 /**
  * Grid size features config.
@@ -9,6 +8,28 @@ export type TGrid = TSize & {
    * Subdivision of the Grid box (sub grid lines). Defaults to `5`.
    */
   subdivision?: number;
+};
+
+/**
+ * Units size features
+ */
+export type TUnits = {
+  /**
+   * Offset of horizontal labels
+   */
+  hOffset: number | TPoint;
+  /**
+   * Offset of vertical labels
+   */
+  vOffset: number | TPoint;
+  /**
+   * Zero label offset
+   */
+  zero?: number | TPoint;
+  /**
+   * Size of the label step
+   */
+  size?: TSize;
 };
 
 export interface IProps {

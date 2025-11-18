@@ -1,34 +1,27 @@
 import type { RefObject } from "react";
 import type { TPoint, TSize } from "../types/common";
-import type { TGrid } from "../grid/types";
 
 export interface IProps {
   orientation: "horizontal" | "vertical";
-  grid: TGrid;
-  labels: boolean | TUnits;
   svgRef: RefObject<SVGSVGElement | null>;
 
   className?: string;
-}
 
-/**
- * Units size features
- */
-export type TUnits = {
   /**
-   * Offset of horizontal labels
+   * Offset of labels. Defaults to `{x:0, y:0}`
    */
-  hOffset: number | TPoint;
+  offset?: number | TPoint;
   /**
-   * Offset of vertical labels
-   */
-  vOffset: number | TPoint;
-  /**
-   * Zero label offset
+   * Zero label offset. Defaults to `{ x: 10, y: 0 }`
    */
   zero?: number | TPoint;
   /**
    * Size of the label step
    */
-  size?: TSize;
-};
+  size: TSize;
+
+  /**
+   * Should skip `0` label
+   */
+  skipZero?: boolean;
+}
