@@ -53,23 +53,7 @@ const getSubdivision = (grid: TGrid) => {
   return (
     <g className="Grid_pattern_sub">
       {verticals}
-      {/* <VerticalLine length={grid.height} x={10} y={0} strokeWidth={1} />
-      <VerticalLine length={grid.height} x={20} y={0} strokeWidth={1} />
-      <VerticalLine length={grid.height} x={30} y={0} strokeWidth={1} />
-      <VerticalLine length={grid.height} x={40} y={0} strokeWidth={1} /> */}
-      {/* <line x1={10} y1={0} x2={10} y2={50} strokeWidth={1} />
-      <line x1={20} y1={0} x2={20} y2={50} strokeWidth={1} />
-      <line x1={30} y1={0} x2={30} y2={50} strokeWidth={1} />
-      <line x1={40} y1={0} x2={40} y2={50} strokeWidth={1} /> */}
       {horizontals}
-      {/* <HorizontalLine length={grid.width} x={0} y={10} strokeWidth={1} />
-      <HorizontalLine length={grid.width} x={0} y={20} strokeWidth={1} />
-      <HorizontalLine length={grid.width} x={0} y={30} strokeWidth={1} />
-      <HorizontalLine length={grid.width} x={0} y={40} strokeWidth={1} /> */}
-      {/* <line x1={0} y1={10} x2={50} y2={10} strokeWidth={1} />
-      <line x1={0} y1={20} x2={50} y2={20} strokeWidth={1} />
-      <line x1={0} y1={30} x2={50} y2={30} strokeWidth={1} />
-      <line x1={0} y1={40} x2={50} y2={40} strokeWidth={1} /> */}
     </g>
   );
 };
