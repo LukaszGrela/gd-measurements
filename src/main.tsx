@@ -17,11 +17,25 @@ createRoot(document.getElementById("root")!).render(
      <Ruler />
     <Ruler orientation="horizontal" location="bottom" />
     */}
-    <Grid grid={{
-      width: 100,
-      height: 100,
-      subdivision: 5
-    }}/> 
+    <Grid
+      // grid={{
+      //   width: 100,
+      //   height: 100,
+      //   subdivision: 5,
+      // }}
+      labels={{
+        hOffset: { x: 5, y: 10 },
+        vOffset: { x: 10, y: -5 },
+
+        zero: { x: 20, y: 10 },
+
+        size: {
+          width: 100,
+          height: 100,
+        },
+      }}
+      // labels
+    />
     <AxisH />
     <AxisV />
   </StrictMode>
