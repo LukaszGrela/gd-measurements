@@ -2,21 +2,48 @@
   "name": "gd-measurements",
   "description": "Set of React components to add measurement means to your components for debugging purpose.",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.1",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+  "main": "dist/gd-measurements.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Łukasz Grela",
+    "email": "lukasz.grela@gmail.com"
   },
-  "dependencies": {
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LukaszGrela/gd-measurements"
+  },
+  "bugs": {
+    "url": "https://github.com/LukaszGrela/gd-measurements/issues"
+  },
+  "scripts": {
+    "clean-package": "node scripts/clean-package.js",
+    "dev": "vite",
+    "build": "tsc --p ./tsconfig.lib.json && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "prepack": "npm run build && npm run clean-package",
+    "postpack": "git checkout -- package.json && rm -rf package.json.backup"
+  },
+  "peerDependencies": {
     "lodash": "^4.17.21",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react": "^18.3.1 || ^19.1.1",
+    "react-dom": "^18.3.1 || ^19.1.1"
   },
   "devDependencies": {
+    "lodash": "^4.17.21",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "@eslint/js": "^9.33.0",
+    "@microsoft/api-extractor": "^7.53.3",
     "@testing-library/jest-dom": "^6.7.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -37,6 +64,7 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.2.4"
   }
 }

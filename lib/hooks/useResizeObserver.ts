@@ -20,13 +20,13 @@ import { rectsEqual } from "../utils/domrect/rectsEqual";
  * @param callback 
  */
 export const useResizeObserver = <T extends Element = Element>(
-  elementRef: RefObject<T | null>,
+  elementRef: RefObject<T | null> | undefined,
   callback: (rect: DOMRect) => void
 ): void => {
   const rect = useRef<DOMRect | null>(null);
 
   const observerCallback = useCallback(() => {
-    if (elementRef.current) {
+    if (elementRef?.current) {
       const incoming = elementRef.current.getBoundingClientRect();
       if (!rectsEqual(rect.current, incoming)) {
         rect.current = DOMRect.fromRect(incoming);
@@ -36,7 +36,7 @@ export const useResizeObserver = <T extends Element = Element>(
   }, [callback, elementRef]);
 
   useEffect(() => {
-    if (!elementRef.current) {
+    if (!elementRef?.current) {
       return;
     }
 

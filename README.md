@@ -10,7 +10,18 @@ Creates a Grid of lines at given or predefined interval, by default every 10px s
 
 #### `position`
 
-Allows to specify one of 2 possible `position`'s: `fixed` or `absolute`. The `absolute` value should be used to put `Grid` in some container (note: container needs to have `position: relative` applied). The `fixed` position should be used when `Grid` is placed at top level of the DOM structure. Default is `fixed`.
+Allows to specify one of 2 possible `position`'s: `fixed` or `absolute`. Default is `fixed`.
+
+- The `absolute` value should be used to put `Grid` in some container (**note:** container needs to have `position: relative` applied).
+- The `fixed` position should be used when `Grid` is placed at top level of the DOM structure.
+
+#### `grid` - `TGrid`
+
+Allows to specify the grid size features. Defaults to `{ width: 50, height: 50 }`
+
+- The `width` specifies the horizontal grid step.
+- The `height` specifies the vertical grid step.
+- The `subdivision` specifies how many divisions grid step have. Defaults to `5`.
 
 ## Ruler
 
@@ -20,7 +31,10 @@ Creates a ruler component with given or predefined interval, by default every 10
 
 #### `postion`
 
-Allows to specify one of 2 possible `position`'s: `fixed` or `absolute`. The `absolute` value should be used to put `Ruler` in some container (note: container needs to have `position: relative` applied). The `fixed` position should be used when `Ruler` is placed at top level of the DOM structure. Default is `fixed`.
+Allows to specify one of 2 possible `position`'s: `fixed` or `absolute`. Default is `fixed`.
+
+- The `absolute` value should be used to put `Grid` in some container (**note:** container needs to have `position: relative` applied).
+- The `fixed` position should be used when `Grid` is placed at top level of the DOM structure.
 
 #### `orientation`
 
@@ -29,3 +43,9 @@ Allows to specify one of 2 possible values: `vertical` and `horizontal`. Default
 #### `location`
 
 Allows to specify one of 4 possible placements: `top`, `right`, `bottom` and `left`. Default is `top`.
+
+## Stylesheet
+
+```
+import 'gd-measurements/dist/gd-measurements.css';
+```
