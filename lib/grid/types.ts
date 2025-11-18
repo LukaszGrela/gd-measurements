@@ -1,5 +1,5 @@
 import type { TUnits } from "../labels/types";
-import type { TSize } from "../types/common";
+import type { TPosition, TSize } from "../types/common";
 
 /**
  * Grid size features config.
@@ -18,7 +18,7 @@ export interface IProps {
 - The `absolute` value should be used to put `Grid` in some container (**note:** container needs to have `position: relative` applied).
 - The `fixed` position should be used when `Grid` is placed at top level of the DOM structure.
    */
-  position?: "absolute" | "fixed";
+  position?: TPosition;
   /**
    * Allows to specify the grid size features. Defaults to `{ width: 50, height: 50 }`
    */

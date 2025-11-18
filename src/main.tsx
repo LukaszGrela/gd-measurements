@@ -11,7 +11,7 @@ import { Grid } from "../lib/grid/Grid.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
-    <Ruler orientation="horizontal" location="top" />
+    <Ruler orientation="horizontal" location="bottom" />
     <Ruler location="right" />
     {/*
      <Ruler />

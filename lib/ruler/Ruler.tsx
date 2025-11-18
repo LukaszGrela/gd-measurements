@@ -3,9 +3,11 @@ import "./Ruler.scss";
 import { classNames } from "../utils/classNames";
 import { VerticalLine } from "../utils/svg/VerticalLine";
 import { HorizontalLine } from "../utils/svg/HorizontalLine";
+import type { IProps } from "./types";
+import type { TOrientation } from "../types/common";
 
 const getPattern1 = (
-  orientation: "vertical" | "horizontal" = "vertical",
+  orientation: TOrientation = "vertical",
   opposite = false
 ) => {
   console.log("getPattern1", orientation, opposite);
@@ -95,11 +97,11 @@ const getPattern1 = (
   );
 };
 
-export const Ruler: FC<{
-  orientation?: "vertical" | "horizontal";
-  position?: "absolute" | "fixed";
-  location?: "top" | "left" | "right" | "bottom";
-}> = ({ orientation = "vertical", location = "left", position = "fixed" }) => {
+export const Ruler: FC<IProps> = ({
+  orientation = "vertical",
+  location = "left",
+  position = "fixed",
+}) => {
   const opposite =
     (orientation === "horizontal" && location === "bottom") ||
     (orientation === "vertical" && location === "right");
