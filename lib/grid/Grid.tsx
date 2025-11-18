@@ -5,6 +5,7 @@ import { HorizontalLine } from "../utils/svg/HorizontalLine";
 import { VerticalLine } from "../utils/svg/VerticalLine";
 import type { IProps, TGrid } from "./types";
 import { Units } from "../labels/Units";
+import type { TPoint } from "../types/common";
 
 const getPatternId = (grid: TGrid) => {
   return `grid-pattern-${grid.width}x${grid.height}`;
@@ -84,6 +85,10 @@ const getPattern1 = (
   );
 };
 
+const DEFAULT_ZERO: TPoint = { x: 12, y: 0 };
+const DEFAULT_H_OFFSET: TPoint = { x: 2, y: 0 };
+const DEFAULT_V_OFFSET: TPoint = { x: 0, y: -2 };
+
 export const Grid: FC<IProps> = ({
   position = "fixed",
   grid = { width: 50, height: 50 },
@@ -102,8 +107,10 @@ export const Grid: FC<IProps> = ({
             className="Grid_units"
             orientation="horizontal"
             svgRef={ref}
-            offset={typeof labels === "boolean" ? undefined : labels.hOffset}
-            zero={typeof labels === "boolean" ? undefined : labels.zero}
+            offset={
+              typeof labels === "boolean" ? DEFAULT_H_OFFSET : labels.hOffset
+            }
+            zero={typeof labels === "boolean" ? DEFAULT_ZERO : labels.zero}
             size={
               typeof labels !== "boolean" && labels.size ? labels.size : grid
             }
@@ -113,8 +120,9 @@ export const Grid: FC<IProps> = ({
             className="Grid_units"
             orientation="vertical"
             svgRef={ref}
-            offset={typeof labels === "boolean" ? undefined : labels.vOffset}
-            zero={typeof labels === "boolean" ? undefined : labels.zero}
+            offset={
+              typeof labels === "boolean" ? DEFAULT_V_OFFSET : labels.vOffset
+            }
             size={
               typeof labels !== "boolean" && labels.size ? labels.size : grid
             }
