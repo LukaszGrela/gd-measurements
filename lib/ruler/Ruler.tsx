@@ -1,10 +1,11 @@
-import { Fragment, type FC } from "react";
+import { Fragment, useRef, type FC } from "react";
 import "./Ruler.scss";
 import { classNames } from "../utils/classNames";
 import { VerticalLine } from "../utils/svg/VerticalLine";
 import { HorizontalLine } from "../utils/svg/HorizontalLine";
 import type { IProps } from "./types";
-import type { TOrientation } from "../types/common";
+import type { TOrientation, TPoint } from "../types/common";
+import { Units } from "../labels/Units";
 
 const getPattern1 = (
   orientation: TOrientation = "vertical",
@@ -97,17 +98,27 @@ const getPattern1 = (
   );
 };
 
+const DEFAULT_H_ZERO: TPoint = { x: 10, y: 25 };
+const DEFAULT_V_ZERO: TPoint = { x: 25, y: 10 };
+const DEFAULT_H_OFFSET: TPoint = { x: 2, y: 25 };
+const DEFAULT_V_OFFSET: TPoint = { x: 25, y: -2 };
+
 export const Ruler: FC<IProps> = ({
   orientation = "vertical",
   location = "left",
   position = "fixed",
+  labels,
 }) => {
+  const ref = useRef<SVGSVGElement | null>(null);
   const opposite =
     (orientation === "horizontal" && location === "bottom") ||
     (orientation === "vertical" && location === "right");
   return (
-    <svg className={classNames("Ruler", location, position, orientation)}>
-      <defs>{getPattern1(orientation, opposite)}</defs>
+    <svg
+      ref={ref}
+      className={classNames("Ruler", location, position, orientation)}
+    >
+      <defs>{getPattern1(orientation, ruler, opposite)}</defs>
       <rect
         fill={`url(#ruler-pattern1-${orientation}-${
           opposite ? "normal" : "opposite"
@@ -115,6 +126,34 @@ export const Ruler: FC<IProps> = ({
         width={"100%"}
         height={"100%"}
       />
+
+      {labels && (
+        <Units
+          className="Ruler_units"
+          orientation={orientation}
+          svgRef={ref}
+          offset={
+            typeof labels === "boolean"
+              ? orientation === "vertical"
+                ? DEFAULT_V_OFFSET
+                : DEFAULT_H_OFFSET
+              : labels.offset
+          }
+          zero={
+            typeof labels === "boolean"
+              ? orientation === "vertical"
+                ? DEFAULT_V_ZERO
+                : DEFAULT_H_ZERO
+              : labels.zero
+          }
+          size={
+            typeof labels !== "boolean" && labels.size
+              ? { width: labels.size, height: labels.size }
+              : { width: 100, height: 100 }
+          }
+          skipZero={typeof labels !== "boolean" ? labels.skipZero : undefined}
+        />
+      )}
     </svg>
   );
 };
