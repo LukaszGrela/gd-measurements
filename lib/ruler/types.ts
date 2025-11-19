@@ -1,6 +1,29 @@
-import type { TOrientation, TPosition } from "../types/common";
+import type { TOrientation, TPoint, TPosition } from "../types/common";
 
 export type TLocation = "top" | "left" | "right" | "bottom";
+
+/**
+ * Unit size features
+ */
+export type TUnit = {
+  /**
+   * Offset of labels
+   */
+  offset: number | TPoint;
+  /**
+   * Zero label offset
+   */
+  zero?: number | TPoint;
+  /**
+   * Size of the label step
+   */
+  size?: number;
+
+  /**
+   * Should skip `0` label
+   */
+  skipZero?: boolean;
+};
 
 export interface IProps {
   /**
@@ -18,4 +41,9 @@ export interface IProps {
    * Allows to specify one of 4 possible placements: `top`, `right`, `bottom` and `left`. Default is `top`.
    */
   location?: TLocation;
+
+  /**
+   * Allows to configure the units labels.
+   */
+  labels?: boolean | TUnit;
 }
