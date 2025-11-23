@@ -48,4 +48,6 @@ export interface IProps {
    * Allows to configure the units labels.
    */
   labels?: boolean | TUnits;
+
+  debug?: boolean;
 }

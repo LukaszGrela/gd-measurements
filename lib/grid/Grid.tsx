@@ -93,6 +93,7 @@ export const Grid: FC<IProps> = ({
   position = "fixed",
   grid = { width: 50, height: 50 },
   labels,
+  debug,
 }) => {
   const ref = useRef<SVGSVGElement | null>(null);
   const patternId = getPatternId(grid);
@@ -104,6 +105,7 @@ export const Grid: FC<IProps> = ({
       {labels && (
         <g>
           <Units
+            debug={debug}
             className="Grid_units"
             orientation="horizontal"
             svgRef={ref}
@@ -112,11 +114,14 @@ export const Grid: FC<IProps> = ({
             }
             zero={typeof labels === "boolean" ? DEFAULT_ZERO : labels.zero}
             size={
-              typeof labels !== "boolean" && labels.size ? labels.size : grid
+              typeof labels !== "boolean" && labels.size
+                ? labels.size.width
+                : grid.width
             }
           />
 
           <Units
+            debug={debug}
             className="Grid_units"
             orientation="vertical"
             svgRef={ref}
@@ -124,7 +129,9 @@ export const Grid: FC<IProps> = ({
               typeof labels === "boolean" ? DEFAULT_V_OFFSET : labels.vOffset
             }
             size={
-              typeof labels !== "boolean" && labels.size ? labels.size : grid
+              typeof labels !== "boolean" && labels.size
+                ? labels.size.height
+                : grid.height
             }
             skipZero
           />
