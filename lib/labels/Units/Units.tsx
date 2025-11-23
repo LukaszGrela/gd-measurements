@@ -60,9 +60,10 @@ const generateLabels = (
       dx = getOffset(zero).x + x;
       dy = getOffset(zero).y + y;
     }
-
+    const label = (index * size).toString();
     return (
       <Label
+        key={`${dx},${dy},${label}`}
         {...defaultConfig(
           index === 0 ? labelZeroConfig : labelConfig,
           index === 0
@@ -75,7 +76,7 @@ const generateLabels = (
           index === length - 1 && "last"
         )}
       >
-        {(index * size).toString()}
+        {label}
       </Label>
     );
   });
