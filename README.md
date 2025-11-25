@@ -23,6 +23,10 @@ Allows to specify the grid size features. Defaults to `{ width: 50, height: 50 }
 - The `height` specifies the vertical grid step.
 - The `subdivision` specifies how many divisions grid step have. Defaults to `5`.
 
+#### `labels` - `TUnits`
+
+Allows to configure the grid ruler labels.
+
 ## Ruler
 
 Creates a ruler component with given or predefined interval, by default every 10px sub division and every 50px main division and every 25px half main division.

@@ -2,7 +2,7 @@
   "name": "gd-measurements",
   "description": "Set of React components to add measurement means to your components for debugging purpose.",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.2.1",
   "type": "module",
   "main": "dist/gd-measurements.js",
   "types": "dist/index.d.ts",
@@ -31,7 +31,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepack": "npm run build && npm run clean-package",
-    "postpack": "git checkout -- package.json && rm -rf package.json.backup"
+    "postpack": "git checkout -- package.json && rm -rf package.json.backup",
+    "typecheck": "tsc --p ./tsconfig.lib.json && tsc --p ./tsconfig.app.json"
   },
   "peerDependencies": {
     "lodash": "^4.17.21",

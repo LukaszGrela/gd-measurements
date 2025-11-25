@@ -4,9 +4,10 @@ import throttle from "lodash/throttle";
 import { classNames } from "../utils/classNames";
 import { HorizontalLine } from "../utils/svg/HorizontalLine";
 import { useResizeObserver } from "../hooks/useResizeObserver";
+import type { TPosition } from "../types/common";
 
 export const AxisH: FC<{
-  position?: "absolute" | "fixed";
+  position?: TPosition;
 }> = ({ position = "fixed" }) => {
   const ref = useRef<SVGSVGElement | null>(null);
   const [width, setWidth] = useState(0);

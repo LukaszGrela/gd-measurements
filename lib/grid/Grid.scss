@@ -30,7 +30,10 @@
   }
 
   &_units .value-label {
-    fill: color.scale(variables.$gd-red, $lightness: -30%);
+    fill: light-dark(
+      color.scale(variables.$gd-red, $lightness: -30%),
+      color.scale(variables.$gd-red, $lightness: 30%)
+    );
     font-family: monospace;
     font-size: 10px;
     alignment-baseline: text-before-edge;

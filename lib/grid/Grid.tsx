@@ -5,6 +5,7 @@ import { HorizontalLine } from "../utils/svg/HorizontalLine";
 import { VerticalLine } from "../utils/svg/VerticalLine";
 import type { IProps, TGrid } from "./types";
 import { Units } from "../labels/Units";
+import type { TPoint } from "../types/common";
 
 const getPatternId = (grid: TGrid) => {
   return `grid-pattern-${grid.width}x${grid.height}`;
@@ -65,7 +66,6 @@ const getPattern1 = (
     height: 50,
   }
 ) => {
-  console.log("Grid pattern", grid);
   return (
     <pattern
       className="Grid_pattern"
@@ -84,13 +84,19 @@ const getPattern1 = (
   );
 };
 
+const DEFAULT_ZERO: TPoint = { x: 12, y: 0 };
+const DEFAULT_H_OFFSET: TPoint = { x: 2, y: 0 };
+const DEFAULT_V_OFFSET: TPoint = { x: 0, y: -2 };
+
 export const Grid: FC<IProps> = ({
   position = "fixed",
   grid = { width: 50, height: 50 },
   labels,
+  debug,
 }) => {
   const ref = useRef<SVGSVGElement | null>(null);
   const patternId = getPatternId(grid);
+
   return (
     <svg ref={ref} className={classNames("Grid", position)}>
       <defs>{getPattern1(patternId, grid)}</defs>
@@ -98,19 +104,35 @@ export const Grid: FC<IProps> = ({
       {labels && (
         <g>
           <Units
+            debug={debug}
             className="Grid_units"
-            grid={grid}
-            labels={labels}
             orientation="horizontal"
             svgRef={ref}
+            offset={
+              typeof labels === "boolean" ? DEFAULT_H_OFFSET : labels.hOffset
+            }
+            zero={typeof labels === "boolean" ? DEFAULT_ZERO : labels.zero}
+            size={
+              typeof labels !== "boolean" && labels.size
+                ? labels.size.width
+                : grid.width
+            }
           />
 
           <Units
+            debug={debug}
             className="Grid_units"
-            grid={grid}
-            labels={labels}
             orientation="vertical"
             svgRef={ref}
+            offset={
+              typeof labels === "boolean" ? DEFAULT_V_OFFSET : labels.vOffset
+            }
+            size={
+              typeof labels !== "boolean" && labels.size
+                ? labels.size.height
+                : grid.height
+            }
+            skipZero
           />
         </g>
       )}
