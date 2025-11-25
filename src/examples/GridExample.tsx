@@ -1,15 +1,15 @@
-import { useMemo, useState, type SVGAttributes } from "react";
+import { useCallback, useMemo, useState, type SVGAttributes } from "react";
 import { Grid } from "../../lib";
 import type { TPosition } from "../../lib/types/common";
 import type { TUnits } from "../../lib/grid/types";
 
 export const GridExample = () => {
-  const [debug, setDebug] = useState(true);
+  const [debug, setDebug] = useState(false);
 
   const [width, setWidth] = useState(50);
   const [height, setHeight] = useState(50);
   const [subdivision, setSubdivision] = useState(5);
-  const [position, setPosition] = useState<TPosition>("fixed");
+  const [position, setPosition] = useState<TPosition>("absolute");
   const [showLabels, setShowLabels] = useState(false);
 
   const [changeConfig, setChangeConfig] = useState(false);
@@ -28,6 +28,27 @@ export const GridExample = () => {
   const [alignment, setAlignment] = useState<
     "text-before-edge" | "middle" | "text-after-edge"
   >("text-before-edge");
+
+  const setDefaults = useCallback(() => {
+    setDebug(false);
+    setWidth(50);
+    setHeight(50);
+    setSubdivision(5);
+    setPosition("absolute");
+    setShowLabels(false);
+    setChangeConfig(false);
+    setHXOffset(0);
+    setHYOffset(0);
+    setVXOffset(0);
+    setVYOffset(0);
+    setZXOffset(10);
+    setZYOffset(0);
+    setUnitsWidth(50);
+    setUnitsHeight(50);
+    setRotation(0);
+    setAnchor("start");
+    setAlignment("text-before-edge");
+  }, []);
 
   const config = useMemo((): TUnits | boolean => {
     if (!changeConfig) return showLabels;
@@ -61,7 +82,7 @@ export const GridExample = () => {
       style={{
         border: "1px solid red",
         position: "relative",
-        maxWidth: "80vw",
+        width: "70vw",
         minHeight: "50vh",
         margin: "0 auto",
       }}
@@ -69,6 +90,9 @@ export const GridExample = () => {
       <div className="controls">
         <h2>Grid example</h2>
         <h3>Controls</h3>
+        <div className="control-group">
+          <button onClick={setDefaults}>Reset</button>
+        </div>
         <div className="control-group">
           <label>
             <input
