@@ -61,13 +61,15 @@ const generateLabels = (
       dy = getOffset(zero).y + y;
     }
     const label = (index * size).toString();
+    const config = defaultConfig(
+      index === 0 ? labelZeroConfig : labelConfig,
+      index === 0
+    );
+
     return (
       <Label
         key={`${dx},${dy},${label}`}
-        {...defaultConfig(
-          index === 0 ? labelZeroConfig : labelConfig,
-          index === 0
-        )}
+        {...config}
         debug={debug}
         translate={{ x: dx, y: dy }}
         className={classNames(
