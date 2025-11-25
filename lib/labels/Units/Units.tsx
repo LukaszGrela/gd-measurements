@@ -104,12 +104,10 @@ export const Units: FC<IProps> = ({
   labelConfig,
   labelZeroConfig,
 }) => {
-  console.log("Units", orientation, offset, svgRef);
   const [length, setLength] = useState(0);
 
   const resizeCallback = useCallback(
     (width: number, height: number) => {
-      console.log("resize", orientation, width, height);
       const newLength = Math.floor(
         (orientation === "horizontal" ? width : height) / size
       );

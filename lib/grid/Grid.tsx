@@ -66,7 +66,6 @@ const getPattern1 = (
     height: 50,
   }
 ) => {
-  console.log("Grid pattern", grid);
   return (
     <pattern
       className="Grid_pattern"
