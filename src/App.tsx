@@ -1,17 +1,16 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import { Grid } from "../lib/grid/Grid";
-import { Ruler } from "../lib/ruler/Ruler";
-import { AxisH } from "../lib/center/AxisH";
-import { AxisV } from "../lib/center/AxisV";
+import { UnitsExample } from "./examples/UnitsExample";
+import { GridExample, LabelExample } from "./examples";
+import { RulerExample } from "./examples/RulerExample";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
+      <h1>GD Measurements</h1>
+      <RulerExample />
+      <br />
+      <GridExample />
+      {/* 
       <div style={{ position: "relative" }}>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -19,11 +18,21 @@ function App() {
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
-        <Ruler location="bottom" orientation="horizontal" position="absolute" />
+        <Ruler
+          location="top"
+          orientation="horizontal"
+          position="absolute"
+          labels
+          // labels={{
+          //   offset: { x: 2, y: 25 },
+          //   zero: { x: 10, y: 25 },
+          //   size: 50,
+          // }}
+        /> 
         <AxisV position="absolute" />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card" style={{ position: "relative" }}>
+        */}
+      {/* <div className="card" style={{ position: "relative" }}>
         <button
           onClick={() => setCount((count) => count + 1)}
           style={{ position: "relative" }}
@@ -34,12 +43,24 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
-        <Ruler location="left" orientation="vertical" position="absolute" />
+        <Ruler
+          location="bottom"
+          orientation="horizontal"
+          position="absolute"
+          // labels
+          labels={{
+            offset: { x: 20, y: 0 },
+            size: 50,
+            zero: { x: 10, y: 0 },
+          }}
+        />
         <AxisH position="absolute" />
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
-      </p>
+      </p> */}
+      <LabelExample />
+      <UnitsExample />
     </>
   );
 }
