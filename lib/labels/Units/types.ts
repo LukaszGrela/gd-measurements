@@ -4,7 +4,14 @@ import type { IProps as ILabelProps } from "../Label";
 
 export interface IProps {
   orientation: "horizontal" | "vertical";
+  /**
+   * Container SVG reference
+   */
   svgRef: RefObject<SVGSVGElement | null>;
+  /**
+   * Size of the label step
+   */
+  size: number;
 
   className?: string;
 
@@ -17,10 +24,6 @@ export interface IProps {
    * Zero label offset. Defaults to `{ x: 10, y: 0 }`
    */
   zero?: number | TPoint;
-  /**
-   * Size of the label step
-   */
-  size: number;
 
   /**
    * Should skip `0` label
