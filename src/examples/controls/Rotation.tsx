@@ -14,7 +14,7 @@ export const Rotation: FC<IProps> = ({ min = -180, max = 180, step = 45 }) => {
   return (
     <div className="control-group Rotation">
       <label>
-        Rotation: {rotation}
+        Rotation:
         <input
           type="range"
           min={min}
@@ -22,6 +22,7 @@ export const Rotation: FC<IProps> = ({ min = -180, max = 180, step = 45 }) => {
           step={step}
           {...register("rotation")}
         />
+        <span aria-hidden>{rotation}</span>
       </label>
     </div>
   );
