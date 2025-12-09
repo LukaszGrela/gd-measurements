@@ -1,0 +1,8 @@
+.LabelExample {
+  & .Example_content {
+    min-height: 300px;
+    & > svg {
+      height: 300px;
+    }
+  }
+}

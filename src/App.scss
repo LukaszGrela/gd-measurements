@@ -1,0 +1,40 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.App {
+  .logo {
+    padding: 0 0 0.75em 0;
+    position: relative;
+  }
+
+  .navigation {
+    text-align: start;
+    padding: 1rem 2rem;
+    position: relative;
+    ul {
+      padding-left: 0;
+      list-style: none;
+    }
+  }
+
+  &.examples {
+    & .logo {
+      padding: 0;
+      margin-bottom: 0;
+    }
+    & .navigation {
+      text-align: center;
+    }
+  }
+}
+
+.NavLink {
+  display: block;
+  & button {
+  }
+}

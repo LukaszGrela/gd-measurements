@@ -1,181 +1,126 @@
-import { useMemo, useRef, useState, type SVGAttributes } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Units, type IProps } from "../../lib/labels/Units";
+import { Example } from "./Example";
+import { Debug } from "./controls/Debug";
+import { Point } from "./controls/Point";
+import type { TPoint } from "../../lib/types/common";
+import { Checkbox } from "./controls/Checkbox";
+import { RadioOptions } from "./controls/RadioOptions";
+import { Numeric } from "./controls/Numeric";
+import { Rotation } from "./controls/Rotation";
+import { Alignment } from "./controls/Alignment";
+import { Anchor } from "./controls/Anchor";
+
+type TUnitsControlsData = {
+  debug: boolean;
+  translate: TPoint;
+  offset: TPoint;
+  orientation: "horizontal" | "vertical";
+  size: number;
+
+  zero?: TPoint;
+  changeConfig?: boolean;
+
+  rotation?: number;
+  anchor?: "start" | "middle" | "end";
+  alignment?: "text-before-edge" | "middle" | "text-after-edge";
+  // label?: string;
+};
+
+const defaultValues: TUnitsControlsData = {
+  debug: false,
+  translate: { x: 20, y: 20 },
+  offset: { x: 0, y: 0 },
+  zero: { x: 0, y: 0 },
+  orientation: "horizontal",
+  size: 100,
+  changeConfig: false,
+  rotation: 0,
+  anchor: "start",
+  alignment: "text-before-edge",
+  // label: "Label",
+};
 
 export const UnitsExample = () => {
-  const [debug, setDebug] = useState(true);
-  const [changeConfig, setChangeConfig] = useState(false);
-  const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
-    "horizontal"
-  );
-
-  const [x, setXOffset] = useState(0);
-  const [y, setYOffset] = useState(0);
-
-  const [rotation, setRotation] = useState(0);
-  const [anchor, setAnchor] = useState<"start" | "middle" | "end">("start");
-
-  const [alignment, setAlignment] = useState<
-    "text-before-edge" | "middle" | "text-after-edge"
-  >("text-before-edge");
-
   const ref = useRef<SVGSVGElement | null>(null);
 
+  const [controlsData, setControlsData] =
+    useState<TUnitsControlsData>(defaultValues);
+  const onControlsDataChanged = useCallback((data: TUnitsControlsData) => {
+    console.log(data);
+    setControlsData(data);
+  }, []);
+
   const config = useMemo((): IProps["labelConfig"] => {
-    if (!changeConfig) return undefined;
+    if (!controlsData.changeConfig) return undefined;
 
     return {
-      alignment,
-      anchor,
-      rotation,
+      alignment: controlsData.alignment,
+      anchor: controlsData.anchor,
+      rotation: controlsData.rotation,
     };
-  }, [alignment, anchor, changeConfig, rotation]);
-  
+  }, [
+    controlsData.alignment,
+    controlsData.anchor,
+    controlsData.changeConfig,
+    controlsData.rotation,
+  ]);
+
   return (
-    <div>
-      <div className="controls">
-        <h2>Units example</h2>
-        <h3>Controls</h3>
-        <div className="control-group">
-          <label>
-            <input
-              type="checkbox"
-              checked={debug}
-              onChange={(e) => setDebug(e.target.checked)}
+    <>
+      <Example<TUnitsControlsData>
+        onChange={onControlsDataChanged}
+        defaultValues={defaultValues}
+        className="UnitsExample"
+        title="Units example"
+        controls={
+          <>
+            <Debug />
+            <RadioOptions<TUnitsControlsData>
+              label="Orientation"
+              name="orientation"
+              options={[{ value: "horizontal" }, { value: "vertical" }]}
             />
-            Debug
-          </label>
-        </div>
-        <div className="control-group">
-          <label>
-            Orientation {orientation}:
-            <select
-              value={orientation}
-              onChange={(e) =>
-                setOrientation(e.target.value as "horizontal" | "vertical")
-              }
-            >
-              {["horizontal", "vertical"].map((value, index) => (
-                <option key={`${index}-${value}`} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-        <h4>Label config</h4>
-        <div className="control-group">
-          <label>
-            <input
-              type="checkbox"
-              checked={changeConfig}
-              onChange={(e) => setChangeConfig(e.target.checked)}
+            <Numeric<TUnitsControlsData>
+              name="size"
+              label="Size of labels step"
             />
-            Edit config
-          </label>
-        </div>
-        {changeConfig && (
-          <div>
-            <div className="control-group">
-              <label>
-                Alignment:
-                <select
-                  value={alignment}
-                  onChange={(e) =>
-                    setAlignment(
-                      e.target.value as
-                        | "text-before-edge"
-                        | "middle"
-                        | "text-after-edge"
-                    )
-                  }
-                >
-                  {(
-                    [
-                      "text-before-edge",
-                      "middle",
-                      "text-after-edge",
-                    ] as Exclude<
-                      SVGAttributes<SVGTSpanElement>["alignmentBaseline"],
-                      undefined
-                    >[]
-                  ).map((value, index) => (
-                    <option key={`${index}-${value}`} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <div className="control-group">
-              <label>
-                Anchor:
-                <select
-                  value={anchor}
-                  onChange={(e) =>
-                    setAnchor(e.target.value as "start" | "middle" | "end")
-                  }
-                >
-                  {["start", "middle", "end"].map((value, index) => (
-                    <option key={`${index}-${value}`} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <div className="control-group">
-              <label>
-                Rotation: {rotation}
-                <input
-                  type="range"
-                  min="-180"
-                  max="180"
-                  step="45"
-                  value={rotation}
-                  onChange={(e) => setRotation(Number(e.target.value))}
+            <Point<TUnitsControlsData> name="translate" label="Translate" />
+            <h4>Label config</h4>
+            <Checkbox label="Edit label config" name="changeConfig" />
+            {controlsData.changeConfig && (
+              <>
+                <Point<TUnitsControlsData>
+                  name="offset"
+                  label="Offset of labels"
                 />
-              </label>
-            </div>
-
-            <div className="control-group">
-              <label>
-                Offset: x
-                <input
-                  type="number"
-                  min="0"
-                  max="50"
-                  value={x}
-                  onChange={(e) => setXOffset(Number(e.target.value))}
+                <Rotation />
+                <Alignment />
+                <Anchor />
+                <h5>Zero label</h5>
+                <Point<TUnitsControlsData>
+                  name="zero"
+                  label="Offset of zero label"
                 />
-                , y
-                <input
-                  type="number"
-                  min="0"
-                  max="50"
-                  value={y}
-                  onChange={(e) => setYOffset(Number(e.target.value))}
-                />
-              </label>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <svg ref={ref} width={600} height={600}>
-        <Units
-          svgRef={ref}
-          orientation={orientation}
-          size={100}
-          debug={debug}
-          translate={{ x: 30, y: 30 }}
-          labelConfig={config}
-          labelZeroConfig={config}
-          offset={changeConfig ? { x, y } : undefined}
-          zero={changeConfig ? { x, y } : undefined}
-        />
-      </svg>
-    </div>
+              </>
+            )}
+          </>
+        }
+      >
+        <svg ref={ref} width={600} height={600}>
+          <Units
+            svgRef={ref}
+            orientation={controlsData.orientation}
+            size={controlsData.size}
+            translate={controlsData.translate}
+            labelConfig={config}
+            labelZeroConfig={config}
+            debug={controlsData.debug}
+            offset={controlsData.changeConfig ? controlsData.offset : undefined}
+            zero={controlsData.changeConfig ? controlsData.zero : undefined}
+          />
+        </svg>
+      </Example>
+    </>
   );
 };
