@@ -1,67 +1,67 @@
-import "./App.css";
-import { UnitsExample } from "./examples/UnitsExample";
-import { GridExample, LabelExample } from "./examples";
+import "./App.scss";
+import { Grid, Ruler } from "../lib";
+import { useState, type ReactNode } from "react";
+import { classNames } from "../lib/utils/classNames";
+import { GridExample, LabelExample, UnitsExample } from "./examples";
 import { RulerExample } from "./examples/RulerExample";
+import { AxisExample } from "./examples/AxisExample";
+
+function NavLink({
+  onClick,
+  children,
+}: {
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <li className="NavLink">
+      <button onClick={onClick}>{children}</button>
+    </li>
+  );
+}
 
 function App() {
+  const [example, setExample] = useState("");
+  const clickHandler = (id: string) => () => {
+    setExample(id);
+  };
+
   return (
-    <>
-      <h1>GD Measurements</h1>
-      <RulerExample />
-      <br />
-      <GridExample />
-      {/* 
-      <div style={{ position: "relative" }}>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-        <Ruler
-          location="top"
-          orientation="horizontal"
-          position="absolute"
-          labels
-          // labels={{
-          //   offset: { x: 2, y: 25 },
-          //   zero: { x: 10, y: 25 },
-          //   size: 50,
-          // }}
-        /> 
-        <AxisV position="absolute" />
-      </div>
-        */}
-      {/* <div className="card" style={{ position: "relative" }}>
-        <button
-          onClick={() => setCount((count) => count + 1)}
-          style={{ position: "relative" }}
-        >
-          count is {count}
-          <Grid position="absolute" />
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-        <Ruler
-          location="bottom"
-          orientation="horizontal"
-          position="absolute"
-          // labels
-          labels={{
-            offset: { x: 20, y: 0 },
-            size: 50,
-            zero: { x: 10, y: 0 },
-          }}
-        />
-        <AxisH position="absolute" />
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
-      <LabelExample />
-      <UnitsExample />
-    </>
+    <div className={classNames("App", example !== "" && "examples")}>
+      <h1 className="logo">
+        GD Measurements
+        {example === "" && (
+          <Ruler position="absolute" location="bottom" labels />
+        )}
+      </h1>
+
+      <nav className="navigation">
+        {example === "" && (
+          <>
+            <h3>Components:</h3>
+            <ul>
+              <NavLink onClick={clickHandler("label")}>Label</NavLink>
+              <NavLink onClick={clickHandler("units")}>Units</NavLink>
+              <NavLink onClick={clickHandler("ruler")}>Ruler</NavLink>
+              <NavLink onClick={clickHandler("grid")}>Grid</NavLink>
+              <NavLink onClick={clickHandler("axis")}>Axis</NavLink>
+            </ul>
+            <Grid labels position="absolute" />
+          </>
+        )}
+        {example !== "" && (
+          <ul>
+            <NavLink onClick={clickHandler("")}>Back to examples</NavLink>
+          </ul>
+        )}
+      </nav>
+
+      {example === "label" && <LabelExample />}
+      {example === "units" && <UnitsExample />}
+      {example === "ruler" && <RulerExample />}
+      {example === "grid" && <GridExample />}
+      {example === "axis" && <AxisExample />}
+    </div>
   );
 }
 

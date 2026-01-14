@@ -1,0 +1,20 @@
+.GridExample {
+  &.Example {
+    position: relative;
+  }
+
+  // & .Example_content {
+  //   border: 1px solid red;
+
+  //   width: 70vw;
+  //   min-height: 50vh;
+  //   margin: 0 auto;
+  // }
+
+  & .flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+  }
+}

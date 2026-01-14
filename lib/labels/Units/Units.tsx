@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useState, type FC } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type FC,
+} from "react";
 import throttle from "lodash/throttle";
 import type { IProps } from "./types";
 import type { TPoint } from "../../types/common";
@@ -7,6 +14,8 @@ import { classNames } from "../../utils/classNames";
 import { getOffset } from "../../utils/getOffset";
 import { Crosshair } from "../../utils/debug/Crosshair";
 import { Label } from "../Label";
+import { Arrow } from "../../utils/debug/Arrow";
+import { negatePoint } from "../../utils/point/negatePoint";
 
 const ZERO_POINT: TPoint = {
   x: 0,
@@ -67,19 +76,26 @@ const generateLabels = (
     );
 
     return (
-      <Label
-        key={`${dx},${dy},${label}`}
-        {...config}
-        debug={debug}
-        translate={{ x: dx, y: dy }}
-        className={classNames(
-          orientation,
-          index === 0 && "first",
-          index === length - 1 && "last"
-        )}
-      >
-        {label}
-      </Label>
+      <Fragment key={`${dx},${dy},${label}`}>
+        <Arrow
+          show={debug}
+          start={{ x, y }}
+          end={{ x: dx, y: dy }}
+          color="blue"
+        />
+        <Label
+          {...config}
+          debug={debug}
+          translate={{ x: dx, y: dy }}
+          className={classNames(
+            orientation,
+            index === 0 && "first",
+            index === length - 1 && "last"
+          )}
+        >
+          {label}
+        </Label>
+      </Fragment>
     );
   });
 };
@@ -138,6 +154,12 @@ export const Units: FC<IProps> = ({
       className={classNames("Units", className)}
       transform={`translate(${translate.x}, ${translate.y})`}
     >
+      <Arrow
+        show={debug}
+        start={negatePoint(translate)}
+        end={{ x: 0, y: 0 }}
+        color="blue"
+      />
       <Crosshair show={debug} size={20} />
       {generateLabels(
         list,
