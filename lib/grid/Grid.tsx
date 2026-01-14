@@ -117,6 +117,16 @@ export const Grid: FC<IProps> = ({
                 ? labels.size.width
                 : grid.width
             }
+            labelConfig={
+              typeof labels !== "boolean" && labels.hLabelConfig
+                ? labels.hLabelConfig
+                : undefined
+            }
+            labelZeroConfig={
+              typeof labels !== "boolean" && labels.labelZeroConfig
+                ? labels.labelZeroConfig
+                : undefined
+            }
           />
 
           <Units
@@ -133,6 +143,11 @@ export const Grid: FC<IProps> = ({
                 : grid.height
             }
             skipZero
+            labelConfig={
+              typeof labels !== "boolean" && labels.vLabelConfig
+                ? labels.vLabelConfig
+                : undefined
+            }
           />
         </g>
       )}

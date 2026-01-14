@@ -1,4 +1,5 @@
 import type { TPoint, TPosition, TSize } from "../types/common";
+import type { IProps as IUnitsProps } from "../labels/Units";
 
 /**
  * Grid size features config.
@@ -30,6 +31,19 @@ export type TUnits = {
    * Size of the label step
    */
   size?: TSize;
+
+  /**
+   * Configuration of the vertical labels
+   */
+  vLabelConfig?: IUnitsProps["labelConfig"];
+  /**
+   * Configuration of the horizontal labels
+   */
+  hLabelConfig?: IUnitsProps["labelConfig"];
+  /**
+   * Configuration of the zero label
+   */
+  labelZeroConfig?: IUnitsProps["labelZeroConfig"];
 };
 
 export interface IProps {
