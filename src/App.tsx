@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import { classNames } from "../lib/utils/classNames";
 import { GridExample, LabelExample, UnitsExample } from "./examples";
 import { RulerExample } from "./examples/RulerExample";
+import { AxisExample } from "./examples/AxisExample";
 
 function NavLink({
   onClick,
@@ -59,7 +60,7 @@ function App() {
       {example === "units" && <UnitsExample />}
       {example === "ruler" && <RulerExample />}
       {example === "grid" && <GridExample />}
-      {example === "axis" && "TODO: <AxisExample />"}
+      {example === "axis" && <AxisExample />}
     </div>
   );
 }
