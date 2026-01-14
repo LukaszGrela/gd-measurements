@@ -33,6 +33,8 @@ export function Example<FormData extends FieldValues>({
   });
 
   useEffect(() => {
+    if (!onChange) return;
+
     // make sure to unsubscribe;
     const callback = methods.subscribe({
       formState: {

@@ -19,11 +19,7 @@
     }
   }
 
-  &_content {
-    position: relative;
-  }
-
-  &_content > svg {
+  &_content > svg.container {
     background-color: light-dark(#888a, #aaaa);
     width: 100%;
     height: 600px;
