@@ -44,14 +44,17 @@ When `true`, displays debug information. Default is `false`.
 ```tsx
 import { Grid } from 'gd-measurements';
 
-// Basic grid with default settings
+// Basic grid with default settings (fixed position)
 <Grid position="fixed" />
 
-// Grid with custom size and subdivisions
-<Grid 
-  position="absolute"
-  grid={{ width: 100, height: 100, subdivision: 10 }}
-/>
+// Grid with custom size and subdivisions in a container
+<div style={{ position: 'relative', width: '800px', height: '600px' }}>
+  <Grid 
+    position="absolute"
+    grid={{ width: 100, height: 100, subdivision: 10 }}
+  />
+  {/* Your content here */}
+</div>
 
 // Grid with labels
 <Grid
@@ -65,8 +68,11 @@ import { Grid } from 'gd-measurements';
   }}
 />
 
-// Grid with debug mode enabled
-<Grid position="absolute" debug />
+// Grid with debug mode in a container
+<div style={{ position: 'relative', width: '400px', height: '400px' }}>
+  <Grid position="absolute" debug />
+  {/* Your content here */}
+</div>
 ```
 
 ## Ruler
@@ -137,19 +143,22 @@ Should skip the `0` label. Only applies when `labels` is set. Default is `false`
 ```tsx
 import { Ruler } from 'gd-measurements';
 
-// Basic vertical ruler at top
+// Basic vertical ruler at top (fixed position)
 <Ruler position="fixed" />
 
-// Horizontal ruler at left with custom size
-<Ruler
-  position="absolute"
-  location="left"
-  size={100}
-  subdivisions={10}
-  width={25}
-/>
+// Horizontal ruler at left in a container
+<div style={{ position: 'relative', width: '600px', height: '400px' }}>
+  <Ruler
+    position="absolute"
+    location="left"
+    size={100}
+    subdivisions={10}
+    width={25}
+  />
+  {/* Your content here */}
+</div>
 
-// Ruler with labels
+// Ruler with labels (fixed position)
 <Ruler
   position="fixed"
   location="top"
@@ -160,18 +169,21 @@ import { Ruler } from 'gd-measurements';
   }}
 />
 
-// Ruler with custom ticks and labels, skipping zero
-<Ruler
-  position="absolute"
-  location="bottom"
-  size={100}
-  subdivisions={10}
-  tickWidth={8}
-  halfTickWidth={15}
-  showHalfTick={true}
-  labels={true}
-  skipZero={true}
-/>
+// Ruler with custom ticks and labels in a container
+<div style={{ position: 'relative', width: '500px', height: '300px' }}>
+  <Ruler
+    position="absolute"
+    location="bottom"
+    size={100}
+    subdivisions={10}
+    tickWidth={8}
+    halfTickWidth={15}
+    showHalfTick={true}
+    labels={true}
+    skipZero={true}
+  />
+  {/* Your content here */}
+</div>
 ```
 
 ## Axis
