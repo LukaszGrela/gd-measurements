@@ -28,7 +28,6 @@ export const LabelExample = () => {
   const [controlsData, setControlsData] =
     useState<TLabelControlsData>(defaultValues);
   const onControlsDataChanged = useCallback((data: TLabelControlsData) => {
-    console.log(data);
     setControlsData(data);
   }, []);
   return (
@@ -48,7 +47,7 @@ export const LabelExample = () => {
           </>
         }
       >
-        <svg width={"100%"} height={"300px"}>
+        <svg className="container" width={"100%"} height={"300px"}>
           <g>
             <Label key={0} translate={{ x: 300, y: 150 }} {...controlsData}>
               {controlsData.label}

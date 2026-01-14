@@ -47,7 +47,6 @@ export const UnitsExample = () => {
   const [controlsData, setControlsData] =
     useState<TUnitsControlsData>(defaultValues);
   const onControlsDataChanged = useCallback((data: TUnitsControlsData) => {
-    console.log(data);
     setControlsData(data);
   }, []);
 
@@ -107,7 +106,7 @@ export const UnitsExample = () => {
           </>
         }
       >
-        <svg ref={ref} width={600} height={600}>
+        <svg className="container" ref={ref} width={600} height={600}>
           <Units
             svgRef={ref}
             orientation={controlsData.orientation}
