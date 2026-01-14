@@ -20,15 +20,17 @@ export function Point<FormData extends FieldValues>({
 
   return (
     <div className="control-group Point">
-      <label>{label}</label>
-      <div>
+      <label>
+        {label}
         <label>
           x
           <input
             type="number"
             min={minX}
             max={maxX}
-            {...register(`${name}.x` as Path<FormData>, { valueAsNumber: true })}
+            {...register(`${name}.x` as Path<FormData>, {
+              valueAsNumber: true,
+            })}
           />
         </label>
         <label>
@@ -37,10 +39,12 @@ export function Point<FormData extends FieldValues>({
             type="number"
             min={minY}
             max={maxY}
-            {...register(`${name}.y` as Path<FormData>, { valueAsNumber: true })}
+            {...register(`${name}.y` as Path<FormData>, {
+              valueAsNumber: true,
+            })}
           />
         </label>
-      </div>
+      </label>
     </div>
   );
 }
