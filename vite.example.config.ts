@@ -27,7 +27,7 @@ export default defineConfig(
     build: {
       outDir: resolve(currentDir, "dist-examples"),
       emptyOutDir: true,
-      copyPublicDir: false,
+      copyPublicDir: true,
       rollupOptions: {
         input: resolve(currentDir, "index.html"),
       },
