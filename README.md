@@ -2,6 +2,12 @@
 
 Set of React components to add measurement means to your components for debugging purpose.
 
+## Installation
+
+```
+npm i gd-measurements
+```
+
 ## Stylesheet
 
 ```
