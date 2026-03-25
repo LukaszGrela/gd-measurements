@@ -25,7 +25,7 @@ export default defineConfig(
     plugins: [react()],
 
     build: {
-      outDir: resolve(currentDir, "dist-example"),
+      outDir: resolve(currentDir, "dist-examples"),
       emptyOutDir: true,
       copyPublicDir: false,
       rollupOptions: {
