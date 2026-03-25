@@ -27,7 +27,7 @@
     "clean-package": "node scripts/clean-package.js",
     "dev": "vite",
     "build": "tsc --p ./tsconfig.lib.json && vite build --config vite.lib.config.ts",
-    "build-examples": "vite build --config vite.example.config.ts",
+    "build-examples": "vite build --base=/gd-measurements/ --config vite.example.config.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "prepack": "npm run build && npm run clean-package",
