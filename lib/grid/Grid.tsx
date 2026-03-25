@@ -27,7 +27,7 @@ const getSubdivision = (grid: TGrid) => {
           x={stepX * i}
           y={0}
           strokeWidth={1}
-        />
+        />,
       );
     }
 
@@ -44,7 +44,7 @@ const getSubdivision = (grid: TGrid) => {
           x={0}
           y={stepY * i}
           strokeWidth={1}
-        />
+        />,
       );
     }
 
@@ -64,7 +64,7 @@ const getPattern1 = (
   grid = {
     width: 50,
     height: 50,
-  }
+  },
 ) => {
   return (
     <pattern
@@ -93,12 +93,13 @@ export const Grid: FC<IProps> = ({
   grid = { width: 50, height: 50 },
   labels,
   debug,
+  className,
 }) => {
   const ref = useRef<SVGSVGElement | null>(null);
   const patternId = getPatternId(grid);
 
   return (
-    <svg ref={ref} className={classNames("Grid", position)}>
+    <svg ref={ref} className={classNames("Grid", position, className)}>
       <defs>{getPattern1(patternId, grid)}</defs>
       <rect fill={`url(#${patternId})`} width={"100%"} height={"100%"} />
       {labels && (

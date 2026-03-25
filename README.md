@@ -2,6 +2,14 @@
 
 Set of React components to add measurement means to your components for debugging purpose.
 
+## Stylesheet
+
+```
+import 'gd-measurements/dist/gd-measurements.css';
+```
+
+Required for the components to render properly (positioning) and basic style.
+
 ## Grid
 
 Creates a Grid of lines at given or predefined interval, by default every 10px sub division and every 50px main division.
@@ -49,7 +57,7 @@ import { Grid } from 'gd-measurements';
 
 // Grid with custom size and subdivisions in a container
 <div style={{ position: 'relative', width: '800px', height: '600px' }}>
-  <Grid 
+  <Grid
     position="absolute"
     grid={{ width: 100, height: 100, subdivision: 10 }}
   />
@@ -74,6 +82,14 @@ import { Grid } from 'gd-measurements';
   {/* Your content here */}
 </div>
 ```
+
+### CSS Override
+
+To override pattern color you need to apply new style to the following CSS classes:
+
+- `.Grid_pattern_main` - main grid stroke color
+- `.Grid_pattern_sub` - subdivision grid stroke color
+- `.Grid .Grid_units .value-label` - label fill color
 
 ## Ruler
 
@@ -186,6 +202,15 @@ import { Ruler } from 'gd-measurements';
 </div>
 ```
 
+### CSS Override
+
+To override pattern color you need to apply new style to the following CSS classes:
+
+- `.Ruler_pattern_line` - ruler's edge fill color
+- `.Ruler_pattern_main` - ruler's main line stroke color
+- `.Ruler_pattern_sub` - ruler's subdivision line stroke color
+- `.Ruler .Ruler_units .value-label` - label fill color
+
 ## Axis
 
 ### AxisH
@@ -199,6 +224,12 @@ Allows to specify one of 2 possible positions: `fixed` or `absolute`. Default is
 - The `absolute` value should be used to put `AxisH` in some container (**note:** container needs to have `position: relative` applied).
 - The `fixed` position should be used when `AxisH` is placed at top level of the DOM structure.
 
+#### CSS Override
+
+To override color you need to apply new style to the following CSS classes:
+
+- `.AxisH line` - Horizontal axis `line` stroke color
+
 ### AxisV
 
 Creates a vertical axis line at the horizontal center of its container.
@@ -209,6 +240,12 @@ Allows to specify one of 2 possible positions: `fixed` or `absolute`. Default is
 
 - The `absolute` value should be used to put `AxisV` in some container (**note:** container needs to have `position: relative` applied).
 - The `fixed` position should be used when `AxisV` is placed at top level of the DOM structure.
+
+#### CSS Override
+
+To override color you need to apply new style to the following CSS classes:
+
+- `.AxisV line` - Vertical axis `line` stroke color
 
 ### Usage Example
 
@@ -231,10 +268,4 @@ import { AxisH, AxisV } from 'gd-measurements';
   <AxisH position="fixed" />
   <AxisV position="fixed" />
 </>
-```
-
-## Stylesheet
-
-```
-import 'gd-measurements/dist/gd-measurements.css';
 ```

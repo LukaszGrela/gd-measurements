@@ -4,11 +4,9 @@ import throttle from "lodash/throttle";
 import { classNames } from "../utils/classNames";
 import { useResizeObserver } from "../hooks/useResizeObserver";
 import { VerticalLine } from "../utils/svg/VerticalLine";
-import type { TPosition } from "../types/common";
+import type { IProps } from "./types";
 
-export const AxisV: FC<{
-  position?: TPosition;
-}> = ({ position = "fixed" }) => {
+export const AxisV: FC<IProps> = ({ position = "fixed", className }) => {
   const ref = useRef<SVGSVGElement | null>(null);
   const [width, setHeight] = useState(0);
   const [x, setXPos] = useState(0);
@@ -22,7 +20,7 @@ export const AxisV: FC<{
   });
 
   return (
-    <svg ref={ref} className={classNames("AxisV", position)}>
+    <svg ref={ref} className={classNames("AxisV", position, className)}>
       <VerticalLine length={width} x={x} y={0} />
     </svg>
   );

@@ -20,7 +20,7 @@ const getPattern1 = (
   showHalfTick = true,
   opposite = false,
   debug = false,
-  mainTickWidth?: number
+  mainTickWidth?: number,
 ) => {
   const step = size / subdivisions;
 
@@ -186,6 +186,7 @@ export const Ruler: FC<IProps> = ({
   halfTickWidth = 20,
   showHalfTick = true,
   mainTickWidth,
+  className,
 }) => {
   const orientation = getOrientation(location);
 
@@ -436,7 +437,13 @@ export const Ruler: FC<IProps> = ({
   return (
     <svg
       ref={ref}
-      className={classNames("Ruler", location, position, orientation)}
+      className={classNames(
+        "Ruler",
+        location,
+        position,
+        orientation,
+        className,
+      )}
       width={orientation === "vertical" ? width : "100%"}
       height={orientation === "horizontal" ? width : "100%"}
     >
@@ -453,7 +460,7 @@ export const Ruler: FC<IProps> = ({
           showHalfTick,
           opposite,
           debug,
-          mainTickWidth
+          mainTickWidth,
         )}
       </defs>
       <rect fill={`url(#${patternId})`} width={"100%"} height={"100%"} />

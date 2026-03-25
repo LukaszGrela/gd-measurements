@@ -64,4 +64,6 @@ export interface IProps {
   labels?: boolean | TUnits;
 
   debug?: boolean;
+
+  className?: string;
 }

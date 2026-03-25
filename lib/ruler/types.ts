@@ -100,4 +100,6 @@ export interface IProps extends TRuler {
   skipZero?: boolean;
 
   debug?: boolean;
+
+  className?: string;
 }
