@@ -47,7 +47,6 @@ export default defineConfig(
           "react/jsx-runtime",
         ],
       },
-      minify: false,
     },
 
     resolve: {
