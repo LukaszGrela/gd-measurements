@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm' # change to 'npm' or 'yarn' if you use those
+          cache: 'npm'
 
       - name: Install deps
         run: |
