@@ -62,6 +62,10 @@ Allows to configure the grid ruler labels. Can be a boolean to enable/disable la
 
 When `true`, displays debug information. Default is `false`.
 
+#### `className?: string`
+
+Additional CSS class name to apply to the Grid component.
+
 ### Usage Example
 
 ```tsx
@@ -169,6 +173,14 @@ Allows to configure the ruler labels. Can be a boolean to enable/disable labels,
 
 Should skip the `0` label. Only applies when `labels` is set. Default is `false`.
 
+#### `debug?: boolean`
+
+When `true`, displays debug information. Default is `false`.
+
+#### `className?: string`
+
+Additional CSS class name to apply to the Ruler component.
+
 ### Usage Example
 
 ```tsx
@@ -228,6 +240,8 @@ To override pattern color you need to apply new style to the following CSS class
 
 ## Axis
 
+This component can adapt to the container size and will always be positioned in the center of its container. It can be used to create a horizontal or vertical axis.
+
 ### AxisH
 
 Creates a horizontal axis line at the vertical center of its container.
@@ -238,6 +252,10 @@ Allows to specify one of 2 possible positions: `fixed` or `absolute`. Default is
 
 - The `absolute` value should be used to put `AxisH` in some container (**note:** container needs to have `position: relative` applied).
 - The `fixed` position should be used when `AxisH` is placed at top level of the DOM structure.
+
+#### `className?: string`
+
+Additional CSS class name to apply to the AxisH component.
 
 #### CSS Override
 
@@ -255,6 +273,10 @@ Allows to specify one of 2 possible positions: `fixed` or `absolute`. Default is
 
 - The `absolute` value should be used to put `AxisV` in some container (**note:** container needs to have `position: relative` applied).
 - The `fixed` position should be used when `AxisV` is placed at top level of the DOM structure.
+
+#### `className?: string`
+
+Additional CSS class name to apply to the AxisV component.
 
 #### CSS Override
 
