@@ -114,5 +114,86 @@ describe("hooks", () => {
 
       expect(observerInstances[0].disconnect).toHaveBeenCalled();
     });
+
+    it("does not call callback on initial render", () => {
+      const callback = vi.fn();
+      const ref = { current: {} as HTMLElement };
+      renderHook(() => {
+        return useResizeObserver(ref, callback);
+      });
+
+      expect(callback).not.toHaveBeenCalled();
+    });
+
+    it("does not call callback when rect has not changed", () => {
+      const rect = {
+        bottom: 1,
+        height: 2,
+        left: 3,
+        right: 4,
+        top: 5,
+        width: 6,
+        x: 7,
+        y: 8,
+      };
+      const callback = vi.fn();
+      const ref = {
+        current: {
+          getBoundingClientRect: () => rect,
+        } as HTMLElement,
+      };
+      renderHook(() => {
+        return useResizeObserver(ref, callback);
+      });
+
+      act(() => {
+        observerInstances.at(0)!.callback([], observerInstances.at(0)!);
+      });
+
+      expect(callback).toHaveBeenCalledWith(rect);
+
+      // Trigger another resize with the same rect
+      act(() => {
+        observerInstances.at(0)!.callback([], observerInstances.at(0)!);
+      });
+
+      // Should only be called once (rectsEqual dedup)
+      expect(callback).toHaveBeenCalledTimes(1);
+    });
+
+    it("disconnects observer on unmount", () => {
+      const callback = vi.fn();
+      const ref = { current: {} as HTMLElement };
+      const { unmount } = renderHook(() => {
+        return useResizeObserver(ref, callback);
+      });
+
+      expect(observerInstances.length).toBe(1);
+
+      unmount();
+
+      expect(observerInstances[0].disconnect).toHaveBeenCalled();
+    });
+
+    it("handles null ref initially then becomes non-null", () => {
+      const callback = vi.fn();
+      const ref = { current: null as unknown as HTMLElement };
+      const { rerender } = renderHook<
+        void,
+        Parameters<typeof useResizeObserver>
+      >((params = [ref, callback]) => {
+        return useResizeObserver(params[0], params[1]);
+      });
+
+      // No observer should be created for null ref
+      expect(observerInstances.length).toBe(0);
+
+      // Now set the ref to a real element
+      const newElement = {} as HTMLElement;
+      rerender([{ current: newElement }, callback]);
+
+      expect(observerInstances.length).toBe(1);
+      expect(observerInstances[0].observe).toHaveBeenCalledWith(newElement);
+    });
   });
 });
