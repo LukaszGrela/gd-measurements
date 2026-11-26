@@ -1,5 +1,5 @@
 export function getSvgParent(
-  element?: SVGElement | null
+  element?: Element | null
 ): SVGSVGElement | null {
   let currentNode: Node | null | undefined = element ?? null;
 
