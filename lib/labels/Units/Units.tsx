@@ -6,8 +6,8 @@ import {
   useState,
   type FC,
 } from "react";
-import throttle from "lodash/throttle";
 import type { IProps } from "./types";
+import { throttle } from "../../utils/throttle";
 import type { TPoint } from "../../types/common";
 import { useResizeObserver } from "../../hooks/useResizeObserver";
 import { classNames } from "../../utils/classNames";
@@ -133,7 +133,12 @@ export const Units: FC<IProps> = ({
     [orientation, size]
   );
 
-  const throttledResize = throttle(resizeCallback, 500);
+  const throttledResize = useMemo(
+    () => throttle(resizeCallback, 500),
+    [resizeCallback]
+  );
+
+  useEffect(() => () => throttledResize.cancel(), [throttledResize]);
 
   useResizeObserver(svgRef, (rect) => {
     throttledResize(rect.width, rect.height);

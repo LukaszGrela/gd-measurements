@@ -9,16 +9,11 @@ describe('utils', () => {
       expect(
         classNames(
           'a',
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          false && 'x',
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          true && 'b',
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          1 && 'c',
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          possibleNull && 'y',
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          possibleUndefined && 'z',
+          false,
+          'b',
+          'c',
+          possibleNull,
+          possibleUndefined,
         ),
       ).toEqual('a b c');
       expect(classNames('a')).toEqual('a');

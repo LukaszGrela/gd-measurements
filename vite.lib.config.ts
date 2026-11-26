@@ -1,4 +1,4 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 import { defineConfig, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react";
 // import dts from "unplugin-dts/vite";

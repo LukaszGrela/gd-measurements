@@ -6,8 +6,7 @@ describe('utils', () => {
     describe('classNamesToCssSelector', () => {
       it('Returns class name string', () => {
         expect(
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          classNamesToCssSelector('a', false && 'x', true && 'b', 1 && 'c'),
+          classNamesToCssSelector('a', false, 'b', 'c'),
         ).toEqual('.a.b.c');
         expect(classNamesToCssSelector('a')).toEqual('.a');
         expect(classNamesToCssSelector('a', 'b')).toEqual('.a.b');
@@ -15,8 +14,7 @@ describe('utils', () => {
       it('Returns undefined', () => {
         expect(classNamesToCssSelector()).toEqual(undefined);
         expect(
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          classNamesToCssSelector('', false && 'x'),
+          classNamesToCssSelector('', false),
         ).toEqual(undefined);
       });
     });

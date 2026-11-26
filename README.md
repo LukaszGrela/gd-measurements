@@ -13,7 +13,6 @@ npm i gd-measurements
 ## Dependencies
 
 ```
-    "lodash": "^4.17.21",
     "react": "^18.3.1 || ^19.1.1",
 ```
 
