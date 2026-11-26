@@ -446,6 +446,7 @@ export const Ruler: FC<IProps> = ({
       )}
       width={orientation === "vertical" ? width : "100%"}
       height={orientation === "horizontal" ? width : "100%"}
+      aria-hidden="true"
     >
       <defs>
         {getPattern1(

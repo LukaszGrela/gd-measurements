@@ -27,7 +27,11 @@ export const AxisH: FC<IProps> = ({ position = "fixed", className }) => {
   });
 
   return (
-    <svg ref={ref} className={classNames("AxisH", position, className)}>
+    <svg
+      ref={ref}
+      className={classNames("AxisH", position, className)}
+      aria-hidden="true"
+    >
       <HorizontalLine length={width} x={0} y={y} />
     </svg>
   );

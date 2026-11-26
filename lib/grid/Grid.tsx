@@ -1,15 +1,11 @@
 import "./Grid.scss";
-import { useRef, type FC, type ReactNode } from "react";
+import { useId, useRef, type FC, type ReactNode } from "react";
 import { classNames } from "../utils/classNames";
 import { HorizontalLine } from "../utils/svg/HorizontalLine";
 import { VerticalLine } from "../utils/svg/VerticalLine";
 import type { IProps, TGrid } from "./types";
 import { Units } from "../labels/Units";
 import type { TPoint } from "../types/common";
-
-const getPatternId = (grid: TGrid) => {
-  return `grid-pattern-${grid.width}x${grid.height}`;
-};
 
 const getSubdivision = (grid: TGrid) => {
   const subdivision = grid.subdivision ?? 5;
@@ -60,8 +56,8 @@ const getSubdivision = (grid: TGrid) => {
 };
 
 const getPattern1 = (
-  id = `grid-pattern1`,
-  grid = {
+  id: string,
+  grid: TGrid = {
     width: 50,
     height: 50,
   },
@@ -96,10 +92,14 @@ export const Grid: FC<IProps> = ({
   className,
 }) => {
   const ref = useRef<SVGSVGElement | null>(null);
-  const patternId = getPatternId(grid);
+  const patternId = `grid-pattern1-${useId()}`;
 
   return (
-    <svg ref={ref} className={classNames("Grid", position, className)}>
+    <svg
+      ref={ref}
+      className={classNames("Grid", position, className)}
+      aria-hidden="true"
+    >
       <defs>{getPattern1(patternId, grid)}</defs>
       <rect fill={`url(#${patternId})`} width={"100%"} height={"100%"} />
       {labels && (

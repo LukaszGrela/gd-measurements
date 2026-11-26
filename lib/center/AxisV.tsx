@@ -27,7 +27,11 @@ export const AxisV: FC<IProps> = ({ position = "fixed", className }) => {
   });
 
   return (
-    <svg ref={ref} className={classNames("AxisV", position, className)}>
+    <svg
+      ref={ref}
+      className={classNames("AxisV", position, className)}
+      aria-hidden="true"
+    >
       <VerticalLine length={width} x={x} y={0} />
     </svg>
   );
