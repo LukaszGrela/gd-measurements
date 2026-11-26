@@ -42,8 +42,8 @@ const generateLabels = (
   const length = list.length;
   const posX = orientation === "horizontal" ? size : 0,
     posY = orientation === "vertical" ? size : 0,
-    offsetX = getOffset(offset).x,
-    offsetY = getOffset(offset).y;
+    { x: offsetX, y: offsetY } = getOffset(offset),
+    zeroOffset = zero ? getOffset(zero) : undefined;
 
   const defaultConfig = (
     config: IProps["labelConfig"],
@@ -66,9 +66,9 @@ const generateLabels = (
 
     let dx = offsetX + x;
     let dy = offsetY + y;
-    if (index === 0 && zero) {
-      dx = getOffset(zero).x + x;
-      dy = getOffset(zero).y + y;
+    if (index === 0 && zeroOffset) {
+      dx = zeroOffset.x + x;
+      dy = zeroOffset.y + y;
     }
     const label = (index * size).toString();
     const config = defaultConfig(

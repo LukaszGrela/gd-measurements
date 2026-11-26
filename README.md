@@ -42,14 +42,39 @@ property instead of recompiling the stylesheet:
 The custom properties are inherited, so setting them on any ancestor of the
 rendered component works as well.
 
+## Numeric props
+
+Numeric props are validated before they reach the SVG attributes, so values a
+plain JavaScript consumer can pass (`0`, `-1`, `NaN`, `Infinity`, `undefined`)
+never produce broken geometry.
+
+| Prop | Component | Fallback | Minimum |
+| --- | --- | --- | --- |
+| `grid.width` | `Grid` | `50` | `1` |
+| `grid.height` | `Grid` | `50` | `1` |
+| `grid.subdivision` | `Grid` | `5` | `1` |
+| `labels.size.width` | `Grid` | grid `width` | `1` |
+| `labels.size.height` | `Grid` | grid `height` | `1` |
+| `size` | `Ruler` | `100` | `1` |
+| `subdivisions` | `Ruler` | `10` | `1` |
+| `width` | `Ruler` | `25` | `1` |
+| `edge` | `Ruler` | `3` | `0` |
+| `tickWidth` | `Ruler` | `10` | `0` |
+| `halfTickWidth` | `Ruler` | `20` | `0` |
+| `mainTickWidth` | `Ruler` | `width` | `0` |
+
+The fallback is only used when the value is missing or not a finite number.
+Counts (`subdivision`, `subdivisions`) are also floored to an integer, because
+they end up as the length of a generated list. `Infinity` therefore falls back
+to the default instead of producing an enormous SVG.
+
+Offset props (`offset`, `zero`, `hOffset`, `vOffset`) accept a number, which is
+used for both axes, or a `TPoint`. A missing or non-finite coordinate falls
+back to `0` for that axis.
+
 ## Grid
 
 Creates a Grid of lines at given or predefined interval, by default every 10px sub division and every 50px main division.
-
-> Numeric props are validated at runtime: values that are not finite numbers
-> (`NaN`, `Infinity`), `0` or negative values fall back to the documented
-> default (or are clamped to the smallest allowed value) instead of producing an
-> empty, infinite or crashing render.
 
 ### Parameters
 
