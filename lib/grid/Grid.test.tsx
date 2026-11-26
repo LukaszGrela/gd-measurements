@@ -42,8 +42,8 @@ describe("Grid", () => {
     expect(lines).toHaveLength(2);
     expect(lines[0].getAttribute("y2")).toBe("50");
     expect(lines[1].getAttribute("x2")).toBe("50");
-    expect(lines[0].getAttribute("strokeWidth")).toBe("2");
-    expect(lines[1].getAttribute("strokeWidth")).toBe("2");
+    expect(lines[0].getAttribute("stroke-width")).toBe("2");
+    expect(lines[1].getAttribute("stroke-width")).toBe("2");
   });
 
   test("draws subdivision lines for the default pattern", () => {

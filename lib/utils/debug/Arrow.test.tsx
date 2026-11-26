@@ -45,7 +45,7 @@ describe("Arrow", () => {
     expect(line?.getAttribute("x2")).toBe("10");
     expect(line?.getAttribute("y2")).toBe("20");
     expect(line?.getAttribute("stroke")).toBe("black");
-    expect(line?.getAttribute("strokeWidth")).toBe("1");
+    expect(line?.getAttribute("stroke-width")).toBe("1");
   });
 
   test("links the line to its own marker and honours start/color", () => {
@@ -60,6 +60,6 @@ describe("Arrow", () => {
     expect(line?.getAttribute("x1")).toBe("2");
     expect(line?.getAttribute("y1")).toBe("4");
     expect(line?.getAttribute("stroke")).toBe("blue");
-    expect(line?.getAttribute("markerEnd")).toBe(`url(#${marker?.id})`);
+    expect(line?.getAttribute("marker-end")).toBe(`url(#${marker?.id})`);
   });
 });
