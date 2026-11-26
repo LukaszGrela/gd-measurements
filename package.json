@@ -1,7 +1,7 @@
 {
   "name": "gd-measurements",
   "description": "Set of React components to add measurement means to your components for debugging purpose.",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "type": "module",
   "main": "dist/gd-measurements.js",
   "types": "dist/index.d.ts",
