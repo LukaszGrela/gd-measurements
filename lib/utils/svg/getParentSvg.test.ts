@@ -41,7 +41,7 @@ describe("getSvgParent", () => {
 
     div.appendChild(span);
 
-    expect(getSvgParent(span)).toBeNull();
+    expect(getSvgParent(span as never)).toBeNull();
   });
 
   test("returns null for an element detached from the document", () => {
