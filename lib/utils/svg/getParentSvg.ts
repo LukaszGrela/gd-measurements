@@ -1,7 +1,7 @@
 export function getSvgParent(
-  element?: SVGElement | null
+  element?: Element | null
 ): SVGSVGElement | null {
-  let currentNode: Node | null | undefined = element;
+  let currentNode: Node | null | undefined = element ?? null;
 
   // Traverse up until an SVG element is found or no more parents are left
   while (currentNode && currentNode.nodeName !== "svg") {

@@ -23,7 +23,7 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "types": ["vitest/jsdom", "jest"]
+    "types": ["vitest/jsdom"]
   },
   "include": ["src", "lib"],
   "exclude": ["**/*.test.*"]

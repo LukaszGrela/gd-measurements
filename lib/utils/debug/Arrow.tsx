@@ -1,4 +1,4 @@
-import { useRef, type FC } from "react";
+import { useId, useRef, type FC } from "react";
 import type { TPoint } from "../../types/common";
 
 const ZERO_POINT: TPoint = {
@@ -13,14 +13,12 @@ export const Arrow: FC<{
   color?: string;
 }> = ({ end, show, start = ZERO_POINT, color = "black" }) => {
   const definition = useRef<SVGDefsElement>(null);
-  // useEffect(() => {
-  //   console.log("definitions SVG", getSvgParent(definition.current));
-  // }, []);
+  const markerId = `arrow-${useId()}`;
   return (
     <>
       <defs ref={definition}>
         <marker
-          id="arrow"
+          id={markerId}
           markerWidth="10"
           markerHeight="10"
           refX="10"
@@ -39,7 +37,7 @@ export const Arrow: FC<{
             y2={end.y}
             stroke={color}
             strokeWidth="1"
-            markerEnd="url(#arrow)"
+            markerEnd={`url(#${markerId})`}
           />
         </g>
       )}

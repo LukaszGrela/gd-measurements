@@ -1,21 +1,20 @@
 import "./Grid.scss";
-import { useRef, type FC, type ReactNode } from "react";
+import { useId, useRef, type FC, type ReactNode } from "react";
 import { classNames } from "../utils/classNames";
+import { intAtLeast, numberAtLeast } from "../utils/number";
 import { HorizontalLine } from "../utils/svg/HorizontalLine";
 import { VerticalLine } from "../utils/svg/VerticalLine";
-import type { IProps, TGrid } from "./types";
+import type { IProps } from "./types";
 import { Units } from "../labels/Units";
 import type { TPoint } from "../types/common";
 
-const getPatternId = (grid: TGrid) => {
-  return `grid-pattern-${grid.width}x${grid.height}`;
-};
-
-const getSubdivision = (grid: TGrid) => {
-  const subdivision = grid.subdivision ?? 5;
-
-  const stepX = grid.width / subdivision;
-  const stepY = grid.height / subdivision;
+const getSubdivision = (
+  subdivision: number,
+  width: number,
+  height: number,
+) => {
+  const stepX = width / subdivision;
+  const stepY = height / subdivision;
 
   const verticals = (() => {
     const list: ReactNode[] = [];
@@ -23,7 +22,7 @@ const getSubdivision = (grid: TGrid) => {
       list.push(
         <VerticalLine
           key={`vl-${i}-${stepX * 1}`}
-          length={grid.height}
+          length={height}
           x={stepX * i}
           y={0}
           strokeWidth={1}
@@ -40,7 +39,7 @@ const getSubdivision = (grid: TGrid) => {
       list.push(
         <HorizontalLine
           key={`hl-${i}-${stepY * 1}`}
-          length={grid.width}
+          length={width}
           x={0}
           y={stepY * i}
           strokeWidth={1}
@@ -60,26 +59,25 @@ const getSubdivision = (grid: TGrid) => {
 };
 
 const getPattern1 = (
-  id = `grid-pattern1`,
-  grid = {
-    width: 50,
-    height: 50,
-  },
+  id: string,
+  subdivision: number,
+  width: number,
+  height: number,
 ) => {
   return (
     <pattern
       className="Grid_pattern"
       id={id}
       patternUnits="userSpaceOnUse"
-      width={grid.width}
-      height={grid.height}
+      width={width}
+      height={height}
     >
       {/* main division */}
       <g className="Grid_pattern_main">
-        <line x1={0} y1={0} x2={0} y2={grid.height} strokeWidth={2} />
-        <line x1={0} y1={0} x2={grid.width} y2={0} strokeWidth={2} />
+        <line x1={0} y1={0} x2={0} y2={height} strokeWidth={2} />
+        <line x1={0} y1={0} x2={width} y2={0} strokeWidth={2} />
       </g>
-      {getSubdivision(grid)}
+      {getSubdivision(subdivision, width, height)}
     </pattern>
   );
 };
@@ -96,11 +94,21 @@ export const Grid: FC<IProps> = ({
   className,
 }) => {
   const ref = useRef<SVGSVGElement | null>(null);
-  const patternId = getPatternId(grid);
+  const patternId = `grid-pattern1-${useId()}`;
+
+  // `width`, `height` and `subdivision` are numbers, but plain JavaScript
+  // consumers can still pass `0`, `-1`, `NaN` or `Infinity`.
+  const width = numberAtLeast(grid.width, 50, 1);
+  const height = numberAtLeast(grid.height, 50, 1);
+  const subdivision = intAtLeast(grid.subdivision, 5, 1);
 
   return (
-    <svg ref={ref} className={classNames("Grid", position, className)}>
-      <defs>{getPattern1(patternId, grid)}</defs>
+    <svg
+      ref={ref}
+      className={classNames("Grid", position, className)}
+      aria-hidden="true"
+    >
+      <defs>{getPattern1(patternId, subdivision, width, height)}</defs>
       <rect fill={`url(#${patternId})`} width={"100%"} height={"100%"} />
       {labels && (
         <g>
@@ -115,8 +123,8 @@ export const Grid: FC<IProps> = ({
             zero={typeof labels === "boolean" ? DEFAULT_ZERO : labels.zero}
             size={
               typeof labels !== "boolean" && labels.size
-                ? labels.size.width
-                : grid.width
+                ? numberAtLeast(labels.size.width, width, 1)
+                : width
             }
             labelConfig={
               typeof labels !== "boolean" && labels.hLabelConfig
@@ -140,8 +148,8 @@ export const Grid: FC<IProps> = ({
             }
             size={
               typeof labels !== "boolean" && labels.size
-                ? labels.size.height
-                : grid.height
+                ? numberAtLeast(labels.size.height, height, 1)
+                : height
             }
             skipZero
             labelConfig={

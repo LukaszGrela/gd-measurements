@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 import { defineConfig, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react";
 // import dts from "unplugin-dts/vite";
@@ -65,10 +64,6 @@ export default defineConfig(
           replacement: resolve(currentDir, "./src/"),
         },
       ],
-    },
-    test: {
-      globals: true, // Enables global test functions like describe, it, etc.
-      environment: "jsdom", // Use jsdom for testing React components
     },
   }),
 );

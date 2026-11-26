@@ -6,8 +6,8 @@ import {
   useState,
   type FC,
 } from "react";
-import throttle from "lodash/throttle";
 import type { IProps } from "./types";
+import { throttle } from "../../utils/throttle";
 import type { TPoint } from "../../types/common";
 import { useResizeObserver } from "../../hooks/useResizeObserver";
 import { classNames } from "../../utils/classNames";
@@ -16,6 +16,7 @@ import { Crosshair } from "../../utils/debug/Crosshair";
 import { Label } from "../Label";
 import { Arrow } from "../../utils/debug/Arrow";
 import { negatePoint } from "../../utils/point/negatePoint";
+import { numberAtLeast } from "../../utils/number";
 
 const ZERO_POINT: TPoint = {
   x: 0,
@@ -41,8 +42,8 @@ const generateLabels = (
   const length = list.length;
   const posX = orientation === "horizontal" ? size : 0,
     posY = orientation === "vertical" ? size : 0,
-    offsetX = getOffset(offset).x,
-    offsetY = getOffset(offset).y;
+    { x: offsetX, y: offsetY } = getOffset(offset),
+    zeroOffset = zero ? getOffset(zero) : undefined;
 
   const defaultConfig = (
     config: IProps["labelConfig"],
@@ -65,9 +66,9 @@ const generateLabels = (
 
     let dx = offsetX + x;
     let dy = offsetY + y;
-    if (index === 0 && zero) {
-      dx = getOffset(zero).x + x;
-      dy = getOffset(zero).y + y;
+    if (index === 0 && zeroOffset) {
+      dx = zeroOffset.x + x;
+      dy = zeroOffset.y + y;
     }
     const label = (index * size).toString();
     const config = defaultConfig(
@@ -111,7 +112,7 @@ export const Units: FC<IProps> = ({
   offset = ZERO_POINT,
   translate = ZERO_POINT,
 
-  size,
+  size: sizeProp,
   zero,
 
   skipZero = false,
@@ -120,6 +121,10 @@ export const Units: FC<IProps> = ({
   labelConfig,
   labelZeroConfig,
 }) => {
+  // a label step of `0` divides by zero and turns `length` into `Infinity`,
+  // which makes `Array(length)` throw a RangeError
+  const size = numberAtLeast(sizeProp, 100, 1);
+
   const [length, setLength] = useState(0);
 
   const resizeCallback = useCallback(
@@ -133,7 +138,12 @@ export const Units: FC<IProps> = ({
     [orientation, size]
   );
 
-  const throttledResize = throttle(resizeCallback, 500);
+  const throttledResize = useMemo(
+    () => throttle(resizeCallback, 500),
+    [resizeCallback]
+  );
+
+  useEffect(() => () => throttledResize.cancel(), [throttledResize]);
 
   useResizeObserver(svgRef, (rect) => {
     throttledResize(rect.width, rect.height);
@@ -146,7 +156,9 @@ export const Units: FC<IProps> = ({
   }, [throttledResize, size, svgRef, offset]);
 
   const list = useMemo(() => {
-    return Array.from(Array(length)).map((_, index) => index);
+    return Array.from(Array(Math.max(0, Math.floor(length)))).map(
+      (_, index) => index
+    );
   }, [length]);
 
   return (

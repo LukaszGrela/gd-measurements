@@ -4,7 +4,6 @@ import { Grid } from "../../lib";
 import type { TUnits, IProps as IGridProps } from "../../lib/grid/types";
 import { Example } from "./Example";
 import { useFormContext, type FieldValues, type Path } from "react-hook-form";
-import { cloneDeep } from "lodash";
 import { Debug } from "./controls/Debug";
 import { RadioOptions } from "./controls/RadioOptions";
 import { Numeric } from "./controls/Numeric";
@@ -80,8 +79,8 @@ function GridControls({ onChange }: { onChange: (data: IGridProps) => void }) {
         if (name === "changeConfig") {
           if (changeConfig) {
             // apply defaults
-            props.labels = cloneDeep(defaultUnitsValues);
-            methods.setValue("labels", cloneDeep(defaultUnitsValues));
+            props.labels = structuredClone(defaultUnitsValues);
+            methods.setValue("labels", structuredClone(defaultUnitsValues));
           } else {
             props.labels = true;
             methods.setValue("labels", true);

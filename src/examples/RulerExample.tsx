@@ -13,7 +13,6 @@ import { RadioOptions } from "./controls/RadioOptions";
 import { Numeric } from "./controls/Numeric";
 import { Checkbox } from "./controls/Checkbox";
 import { useFormContext } from "react-hook-form";
-import { cloneDeep } from "lodash";
 import { UnitPropsControls } from "./controls/UnitPropsControls";
 
 type TRulerControlsData = {
@@ -126,8 +125,8 @@ function RulerControls({
         if (name === "changeConfig") {
           if (changeConfig) {
             // apply defaults
-            props.labels = cloneDeep(defaultUnitValues);
-            methods.setValue("labels", cloneDeep(defaultUnitValues));
+            props.labels = structuredClone(defaultUnitValues);
+            methods.setValue("labels", structuredClone(defaultUnitValues));
           } else {
             props.labels = true;
             methods.setValue("labels", true);

@@ -18,7 +18,7 @@
 
   &.fixed {
     position: fixed;
-    z-index: 1979;
+    z-index: var(--gd-measurements-z-index, 1979);
 
     &.vertical {
       height: 100vh;

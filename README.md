@@ -13,7 +13,6 @@ npm i gd-measurements
 ## Dependencies
 
 ```
-    "lodash": "^4.17.21",
     "react": "^18.3.1 || ^19.1.1",
 ```
 
@@ -24,6 +23,69 @@ import 'gd-measurements/dist/gd-measurements.css';
 ```
 
 Required for the components to render properly (positioning) and basic style.
+
+## Z-index
+
+`Grid`, `Ruler`, `AxisH` and `AxisV` are rendered above your UI with a very high
+`z-index`. When using the `fixed` position you can override it with a CSS custom
+property instead of recompiling the stylesheet:
+
+```css
+:root {
+  /* Grid and Ruler - default 1979 */
+  --gd-measurements-z-index: 10;
+  /* AxisH and AxisV - default 19791306 */
+  --gd-measurements-axis-z-index: 11;
+}
+```
+
+The custom properties are inherited, so setting them on any ancestor of the
+rendered component works as well.
+
+## Numeric props
+
+Numeric props are validated before they reach the SVG attributes, so values a
+plain JavaScript consumer can pass (`0`, `-1`, `NaN`, `Infinity`, `undefined`)
+never produce broken geometry.
+
+| Prop | Component | Fallback | Minimum |
+| --- | --- | --- | --- |
+| `grid.width` | `Grid` | `50` | `1` |
+| `grid.height` | `Grid` | `50` | `1` |
+| `grid.subdivision` | `Grid` | `5` | `1` |
+| `labels.size.width` | `Grid` | grid `width` | `1` |
+| `labels.size.height` | `Grid` | grid `height` | `1` |
+| `size` | `Ruler` | `100` | `1` |
+| `subdivisions` | `Ruler` | `10` | `1` |
+| `width` | `Ruler` | `25` | `1` |
+| `edge` | `Ruler` | `3` | `0` |
+| `tickWidth` | `Ruler` | `10` | `0` |
+| `halfTickWidth` | `Ruler` | `20` | `0` |
+| `mainTickWidth` | `Ruler` | `width` | `0` |
+
+The fallback is only used when the value is missing or not a finite number.
+Counts (`subdivision`, `subdivisions`) are also floored to an integer, because
+they end up as the length of a generated list. `Infinity` therefore falls back
+to the default instead of producing an enormous SVG.
+
+Offset props (`offset`, `zero`, `hOffset`, `vOffset`) accept a number, which is
+used for both axes, or a `TPoint`. A missing or non-finite coordinate falls
+back to `0` for that axis.
+
+## Tests
+
+The components are covered by unit tests written with `vitest` and
+`@testing-library/react`. The test setup lives in `vitest.config.ts`, which runs
+the suite in the `jsdom` environment and adds the same aliases the library
+build uses.
+
+```
+npm test              # single run
+npm run test:watch    # watch mode
+npm run test:coverage # coverage report (HTML in coverage/)
+```
+
+Test files sit next to the sources, e.g. `lib/grid/Grid.test.tsx`.
 
 ## Grid
 
