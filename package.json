@@ -1,7 +1,7 @@
 {
   "name": "gd-measurements",
   "description": "Set of React components to add measurement means to your components for debugging purpose.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "type": "module",
   "main": "dist/gd-measurements.js",
   "types": "dist/index.d.ts",
@@ -34,8 +34,10 @@
     "test:coverage": "vitest run --coverage",
     "preview": "vite preview",
     "prepack": "npm run build && npm run clean-package",
-    "postpack": "git checkout -- package.json && rm -rf package.json.backup",
-    "typecheck": "tsc --p ./tsconfig.lib.json && tsc --p ./tsconfig.app.json && tsc --p ./tsconfig.node.json"
+    "postpack": "node scripts/restore-package.js",
+    "prepublishOnly": "npm run verify",
+    "typecheck": "tsc --p ./tsconfig.lib.json && tsc --p ./tsconfig.app.json && tsc --p ./tsconfig.node.json",
+    "verify": "npm run typecheck && npm run lint && npm test"
   },
   "engines": {
     "node": ">=20"
