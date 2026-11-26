@@ -15,7 +15,7 @@
 
   &.fixed {
     position: fixed;
-    z-index: 19791306;
+    z-index: var(--gd-measurements-axis-z-index, 19791306);
 
     height: 100vh;
     width: 100vw;

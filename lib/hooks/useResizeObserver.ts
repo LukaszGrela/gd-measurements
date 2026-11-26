@@ -40,6 +40,12 @@ export const useResizeObserver = <T extends Element = Element>(
       return;
     }
 
+    // no `ResizeObserver` during server side rendering, in older browsers or
+    // in test environments that do not provide it
+    if (typeof ResizeObserver === "undefined") {
+      return;
+    }
+
     const observer = new ResizeObserver(observerCallback);
 
     observer.observe(elementRef.current);

@@ -1,9 +1,10 @@
 import "./Ruler.scss";
 import { useId, useMemo, useRef, type FC } from "react";
 import { classNames } from "../utils/classNames";
+import { intAtLeast, numberAtLeast } from "../utils/number";
 import { VerticalLine } from "../utils/svg/VerticalLine";
 import { HorizontalLine } from "../utils/svg/HorizontalLine";
-import type { IProps, TLocation } from "./types";
+import type { IProps, TLocation, TUnit } from "./types";
 import type { TOrientation, TPoint } from "../types/common";
 import { Units, type IProps as IUnitsProps } from "../labels/Units";
 import { getOffset } from "../utils/getOffset";
@@ -164,6 +165,54 @@ const getPattern1 = (
 
 const DEFAULT_OFFSET: TPoint = { x: 2, y: 12 };
 
+/**
+ * Resolves the label anchor point for the given ruler `location`.
+ *
+ *                (top)
+ *            ┌──┬──┬──┬──┬──┬──┐
+ *            │     -x←│→+x     │
+ *
+ * Horizontal rulers keep the horizontal offset and move the label along the
+ * vertical axis; `bottom` flips the sign. Vertical rulers swap the axes, and
+ * `right` flips `x`. `offset.y` is negated for the side locations only in the
+ * `offset` variant (`negateY`); the `zero` variant keeps it positive.
+ */
+const getLabelsPoint = (
+  labels: boolean | TUnit,
+  key: "offset" | "zero",
+  location: TLocation,
+  widthProp: number,
+): TPoint => {
+  const width = numberAtLeast(widthProp, 25, 1);
+  const offset =
+    typeof labels === "boolean"
+      ? DEFAULT_OFFSET
+      : getOffset(labels[key] ?? DEFAULT_OFFSET);
+  const negateY = key === "offset";
+
+  let natural: TPoint;
+
+  if (location === "bottom") {
+    natural = { x: offset.x, y: -1 * offset.y };
+  } else if (location === "top") {
+    natural = { x: offset.x, y: offset.y };
+  } else if (location === "left") {
+    natural = { x: offset.y, y: negateY ? -1 * offset.x : offset.x };
+  } else {
+    natural = { x: -1 * offset.y, y: negateY ? -1 * offset.x : offset.x };
+  }
+
+  if (location === "right") {
+    return { x: width + natural.x, y: natural.y };
+  }
+
+  if (location === "bottom") {
+    return { x: natural.x, y: width + natural.y };
+  }
+
+  return natural;
+};
+
 const getOrientation = (location: TLocation): TOrientation => {
   if (location === "bottom" || location === "top") return "horizontal";
   return "vertical";
@@ -177,17 +226,31 @@ export const Ruler: FC<IProps> = ({
   // ruler = {},
   debug = false,
 
-  width = 25,
-  size = 100,
+  width: widthProp = 25,
+  size: sizeProp = 100,
 
-  subdivisions = 10,
-  edge = 3,
-  tickWidth = 10,
-  halfTickWidth = 20,
+  subdivisions: subdivisionsProp = 10,
+  edge: edgeProp = 3,
+  tickWidth: tickWidthProp = 10,
+  halfTickWidth: halfTickWidthProp = 20,
   showHalfTick = true,
-  mainTickWidth,
+  mainTickWidth: mainTickWidthProp,
   className,
 }) => {
+  // They are typed as numbers, but plain JavaScript consumers can pass `0`,
+  // `-1`, `NaN` or `Infinity`. `subdivisions: 0` divides by zero and
+  // `Array(subdivisions - 1)` throws a RangeError for negative values.
+  const width = numberAtLeast(widthProp, 25, 1);
+  const size = numberAtLeast(sizeProp, 100, 1);
+  const subdivisions = intAtLeast(subdivisionsProp, 10, 1);
+  const edge = numberAtLeast(edgeProp, 3, 0);
+  const tickWidth = numberAtLeast(tickWidthProp, 10, 0);
+  const halfTickWidth = numberAtLeast(halfTickWidthProp, 20, 0);
+  const mainTickWidth =
+    mainTickWidthProp === undefined
+      ? undefined
+      : numberAtLeast(mainTickWidthProp, width, 0);
+
   const orientation = getOrientation(location);
 
   const ref = useRef<SVGSVGElement | null>(null);
@@ -198,202 +261,14 @@ export const Ruler: FC<IProps> = ({
   const offset = useMemo(() => {
     if (!labels) return undefined;
 
-    const natural: TPoint = { x: 0, y: 0 };
-
-    // defaults
-    let offset = DEFAULT_OFFSET;
-
-    if (typeof labels !== "boolean") {
-      offset = getOffset(labels.offset ?? DEFAULT_OFFSET);
-    }
-
-    /**
-     * Horizontal (bottom)
-     *            │     -x←│→+x     │
-     *            │     -y↓│↑+y     │
-     *            └──┴──┴──┴──┴──┴──┘
-     * offset.x - natural
-     * offset.y - -1 * natural
-     */
-    if (location === "bottom") {
-      natural.x = offset.x;
-      natural.y = -1 * offset.y;
-    }
-    /**            (top)
-     *            ┌──┬──┬──┬──┬──┬──┐
-     *            │     -x←│→+x     │
-     *            │     +y↓│↑-y     │
-     * offset.x - natural
-     * offset.y - natural
-     */
-    if (location === "top") {
-      natural.x = offset.x;
-      natural.y = offset.y;
-    }
-    /**
-     * Vertical (left)
-     *          ┌──────
-     *          │
-     *          ├─
-     *          │
-     *          ├─
-     *          │ +x↑,+y→
-     *          ├──────
-     *          │ -x↓,-y←
-     *          ├─
-     *          │
-     *          ├─
-     *          └──────
-     * offset.x - natural.y
-     * offset.y - -1 * natural.x
-     */
-    if (location === "left") {
-      natural.x = offset.y;
-      natural.y = -1 * offset.x;
-    }
-    /**
-     *          (right)
-     *           ──────┐
-     *                 │
-     *                ─┤
-     *                 │
-     *                ─┤
-     *         +x↑,-y→ │
-     *           ──────┤
-     *         -x↓,+y← │
-     *                ─┤
-     *                 │
-     *                ─┤
-     *           ──────┘
-     * offset.x - -1*natural.y
-     * offset.y - -1*natural.x
-     */
-    if (location === "right") {
-      natural.x = -1 * offset.y;
-      natural.y = -1 * offset.x;
-    }
-
-    const adjustOffset = (value: TPoint): TPoint => {
-      if (location === "right") {
-        return {
-          x: width + value.x,
-          y: value.y,
-        };
-      }
-      if (location === "bottom") {
-        return {
-          x: value.x,
-          y: width + value.y,
-        };
-      }
-
-      return value;
-    };
-
-    const result: TPoint = adjustOffset(natural);
-
-    return result;
-  }, [labels, location, width]);
+    return getLabelsPoint(labels, "offset", location, widthProp);
+  }, [labels, location, widthProp]);
 
   const zero = useMemo(() => {
     if (!labels) return undefined;
 
-    const natural: TPoint = { x: 0, y: 0 };
-
-    // defaults for boolean label
-    let offset = DEFAULT_OFFSET;
-
-    if (typeof labels !== "boolean") {
-      offset = getOffset(labels.zero ?? DEFAULT_OFFSET);
-    }
-
-    /**
-     * Horizontal (bottom)
-     *            │     -x←│→+x     │
-     *            │     -y↓│↑+y     │
-     *            └──┴──┴──┴──┴──┴──┘
-     * offset.x - natural
-     * offset.y - -1 * natural
-     */
-    if (location === "bottom") {
-      natural.x = offset.x;
-      natural.y = -1 * offset.y;
-    }
-    /**            (top)
-     *            ┌──┬──┬──┬──┬──┬──┐
-     *            │     -x←│→+x     │
-     *            │     +y↓│↑-y     │
-     * offset.x - natural
-     * offset.y - natural
-     */
-    if (location === "top") {
-      natural.x = offset.x;
-      natural.y = offset.y;
-    }
-    /**
-     * Vertical (left)
-     *          ┌──────
-     *          │
-     *          ├─
-     *          │
-     *          ├─
-     *          │ +x↑,+y→
-     *          ├──────
-     *          │ -x↓,-y←
-     *          ├─
-     *          │
-     *          ├─
-     *          └──────
-     * offset.x - natural.y
-     * offset.y - -1 * natural.x
-     */
-    if (location === "left") {
-      natural.x = offset.y;
-      natural.y = offset.x;
-    }
-    /**
-     *          (right)
-     *           ──────┐
-     *                 │
-     *                ─┤
-     *                 │
-     *                ─┤
-     *         +x↑,-y→ │
-     *           ──────┤
-     *         -x↓,+y← │
-     *                ─┤
-     *                 │
-     *                ─┤
-     *           ──────┘
-     * offset.x - -1*natural.y
-     * offset.y - natural.x
-     */
-    if (location === "right") {
-      natural.x = -1 * offset.y;
-      natural.y = offset.x;
-    }
-
-    const adjustOffset = (value: TPoint): TPoint => {
-      if (location === "right") {
-        return {
-          x: width + value.x,
-          y: value.y,
-        };
-      }
-      if (location === "bottom") {
-        return {
-          x: value.x,
-          y: width + value.y,
-        };
-      }
-
-      return value;
-    };
-
-    const result: TPoint = adjustOffset(natural);
-
-    return result;
-  }, [labels, location, width]);
+    return getLabelsPoint(labels, "zero", location, widthProp);
+  }, [labels, location, widthProp]);
 
   const labelConfig = useMemo((): IUnitsProps["labelConfig"] | undefined => {
     if (labels) {

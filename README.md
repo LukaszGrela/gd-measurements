@@ -24,9 +24,32 @@ import 'gd-measurements/dist/gd-measurements.css';
 
 Required for the components to render properly (positioning) and basic style.
 
+## Z-index
+
+`Grid`, `Ruler`, `AxisH` and `AxisV` are rendered above your UI with a very high
+`z-index`. When using the `fixed` position you can override it with a CSS custom
+property instead of recompiling the stylesheet:
+
+```css
+:root {
+  /* Grid and Ruler - default 1979 */
+  --gd-measurements-z-index: 10;
+  /* AxisH and AxisV - default 19791306 */
+  --gd-measurements-axis-z-index: 11;
+}
+```
+
+The custom properties are inherited, so setting them on any ancestor of the
+rendered component works as well.
+
 ## Grid
 
 Creates a Grid of lines at given or predefined interval, by default every 10px sub division and every 50px main division.
+
+> Numeric props are validated at runtime: values that are not finite numbers
+> (`NaN`, `Infinity`), `0` or negative values fall back to the documented
+> default (or are clamped to the smallest allowed value) instead of producing an
+> empty, infinite or crashing render.
 
 ### Parameters
 

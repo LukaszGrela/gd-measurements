@@ -16,6 +16,7 @@ import { Crosshair } from "../../utils/debug/Crosshair";
 import { Label } from "../Label";
 import { Arrow } from "../../utils/debug/Arrow";
 import { negatePoint } from "../../utils/point/negatePoint";
+import { numberAtLeast } from "../../utils/number";
 
 const ZERO_POINT: TPoint = {
   x: 0,
@@ -111,7 +112,7 @@ export const Units: FC<IProps> = ({
   offset = ZERO_POINT,
   translate = ZERO_POINT,
 
-  size,
+  size: sizeProp,
   zero,
 
   skipZero = false,
@@ -120,6 +121,10 @@ export const Units: FC<IProps> = ({
   labelConfig,
   labelZeroConfig,
 }) => {
+  // a label step of `0` divides by zero and turns `length` into `Infinity`,
+  // which makes `Array(length)` throw a RangeError
+  const size = numberAtLeast(sizeProp, 100, 1);
+
   const [length, setLength] = useState(0);
 
   const resizeCallback = useCallback(
@@ -151,7 +156,9 @@ export const Units: FC<IProps> = ({
   }, [throttledResize, size, svgRef, offset]);
 
   const list = useMemo(() => {
-    return Array.from(Array(length)).map((_, index) => index);
+    return Array.from(Array(Math.max(0, Math.floor(length)))).map(
+      (_, index) => index
+    );
   }, [length]);
 
   return (
