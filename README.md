@@ -72,6 +72,21 @@ Offset props (`offset`, `zero`, `hOffset`, `vOffset`) accept a number, which is
 used for both axes, or a `TPoint`. A missing or non-finite coordinate falls
 back to `0` for that axis.
 
+## Tests
+
+The components are covered by unit tests written with `vitest` and
+`@testing-library/react`. The test setup lives in `vitest.config.ts`, which runs
+the suite in the `jsdom` environment and adds the same aliases the library
+build uses.
+
+```
+npm test              # single run
+npm run test:watch    # watch mode
+npm run test:coverage # coverage report (HTML in coverage/)
+```
+
+Test files sit next to the sources, e.g. `lib/grid/Grid.test.tsx`.
+
 ## Grid
 
 Creates a Grid of lines at given or predefined interval, by default every 10px sub division and every 50px main division.
